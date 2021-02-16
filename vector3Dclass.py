@@ -153,7 +153,7 @@ class Vector3D():
         Uses given Vector3D instance, returns string."""
         return "("+str(self.__x)+"; "+str(self.__y)+"; "+str(self.__z)+")"
 
-    x = property(getX(), setX())
-    y = property(getY(), setY())
-    z = property(getZ(), setZ())
-    name = property(getName(), setName())
+    x = property(getX, setX)
+    y = property(getY, setY)
+    z = property(getZ, setZ)
+    name = property(getName, setName)

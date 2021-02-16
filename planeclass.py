@@ -151,15 +151,15 @@ class Plane:
             return "No valid plane!"
 
 
-    posVec = property(getPositionVector(), setPositionVector())
+    posVec = property(getPositionVector, setPositionVector)
 
-    normVec = property(getNormalVector(), setNormalVector())
+    normVec = property(getNormalVector, setNormalVector)
 
-    dirVecOne = property(getDirectionVectorOne(), setDirectionVectorOne())
+    dirVecOne = property(getDirectionVectorOne, setDirectionVectorOne)
 
-    dirVecTwo = property(getDirectionVectorTwo(), setDirectionVectorTwo())
+    dirVecTwo = property(getDirectionVectorTwo, setDirectionVectorTwo)
     
-    scalParam = property(getScalarParameter(), setScalarParameter())
+    scalParam = property(getScalarParameter, setScalarParameter)
 
-    name = property(getName(), setName())
+    name = property(getName, setName)
 

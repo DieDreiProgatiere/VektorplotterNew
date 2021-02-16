@@ -102,8 +102,8 @@ class Line:
         """Str method. Using given line instance, returns string."""
         return str(self.__id)+": x = "+ str(self.__positionVector)+" + "+str(self.__parameter)+" * "+str(self.__directionVector)
 
-    posVec = property(getPositionVector(), setPositionVector())
+    posVec = property(getPositionVector, setPositionVector)
 
-    dirVec = property(getDirectionVector(), setDirectionVector())
+    dirVec = property(getDirectionVector, setDirectionVector)
 
-    name = property(getName(), setName())
+    name = property(getName, setName)

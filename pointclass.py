@@ -77,7 +77,7 @@ class Point():
         Valuerange = 0 to 256"""
         self.__color = color
 
-    x = property(getX(), setX())
-    y = property(getY(), setY())
-    z = property(getZ(), setZ())
-    name = property(getName(), setName())
+    x = property(getX, setX)
+    y = property(getY, setY)
+    z = property(getZ, setZ)
+    name = property(getName, setName)
