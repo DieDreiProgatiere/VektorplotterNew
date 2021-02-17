@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter import ttk
+from tkinter.constants import RIDGE
 
 class MainGUI:
 
@@ -15,12 +16,12 @@ class MainGUI:
 
 
     def makeVlistFrame(self):
-        self.vlistFrame = tk.Frame(self.mainframe, padx = 12, pady = 12)
+        self.vlistFrame = tk.Frame(self.mainframe, padx = 12, pady = 12, borderwidth = 1, bg = "#EEEEEE", relief = RIDGE)
         self.vlistFrame.grid(column = 0, row = 0, sticky = tk.N + tk.E + tk.S)
 
 
     def makeCanvasFrame(self):
-        self.canvasFrame = tk.Frame(self.mainframe, padx = 12, pady = 12)
+        self.canvasFrame = tk.Frame(self.mainframe, padx = 12, pady = 12, borderwidth=1, bg = "#DDDDDD", relief = RIDGE)
         self.canvasFrame.grid(column = 1, row = 0, sticky = tk.N + tk.W + tk.S)
 
 
