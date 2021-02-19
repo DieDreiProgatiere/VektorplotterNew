@@ -3,6 +3,7 @@ from tkinter import ttk
 from tkinter.constants import RIDGE
 
 class MainGUI:
+    
 
     def __init__(self):
         self.root = tk.Tk()
