@@ -111,9 +111,3 @@ class Line:
 
     name = property(getName, setName)
 
-
-
-
-Line1 = Line(Vector3D(1, 1, 1, "Vec1"), Vector3D(1, 1, 1, "Vec2"), name="Line1")
-
-print(ObjectLists.getLinList())
