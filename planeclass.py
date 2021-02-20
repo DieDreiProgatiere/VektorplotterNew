@@ -14,7 +14,7 @@ class Plane:
     def parameterForm(cls, positionVector :Vector3D, directionVectorOne :Vector3D, directionVectorTwo :Vector3D, name :str = "", color :tuple = (0, 0, 0)):
         """The classmethod for initializing a Plane in parameter Form. Takes positionVector and directionVectorOne and directionVectorTwo as Vector3D, parameter as int or float, name as string and color as tuple of format: (Red, Green, Blue)(Valuerange = 0 to 256)."""
         plane = cls(positionVector, directionVectorOne, directionVectorTwo, None, None, name, color)
-        self.__typeOfPlane = "parameter"
+        cls.__typeOfPlane = "parameter"
         return plane
 
 
@@ -22,7 +22,7 @@ class Plane:
     def normalForm(cls, positionVector :Vector3D, normalVector :Vector3D, name :str = "", color :tuple = (0, 0, 0)):
         """The classmethod for intializing a Plane in normal Form. Takes positionVector and normalVector as Vector3D, name as string and color as tuple of format: (Red, Green, Blue)(Valuerange = 0 to 256)."""
         plane = cls(positionVector, None, None, normalVector, None, name, color)
-        self.__typeOfPlane = "normal"
+        cls.__typeOfPlane = "normal"
         return plane
 
 
@@ -30,7 +30,7 @@ class Plane:
     def coordinateForm(cls, normalVector :Vector3D, scalarParameter :float, name :str = "", color :tuple = (0, 0, 0)):
         """The classmethod for initializing a Plane in coordinate Form. Takes a, b, c, d as float, name as string and color as tuple of format: (Red, Green, Blue)(Valuerange = 0 to 256). For a equation of the form: ax + by + cz = d."""
         plane = cls(None, None, None, normalVector, scalarParameter, name, color)
-        self.__typeOfPlane = "coordinate"
+        cls.__typeOfPlane = "coordinate"
         return plane
 
 
