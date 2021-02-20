@@ -25,6 +25,14 @@ class Vector3D():
         ObjectLists.appendVecList(str(self))
 
 
+    def __del__(self):
+        try:
+            ObjectLists.removeFromObjDict({str(self.__id): str(self)})
+            ObjectLists.removeFromVecList(str(self))
+        except ValueError:
+            pass
+
+
     def getX(self):
         """The get method for the x-komponent.
         Returns x as float."""

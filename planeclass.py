@@ -56,6 +56,14 @@ class Plane:
         ObjectLists.appendPlaList(str(self))
 
 
+    def __del__(self):
+        try:
+            ObjectLists.removeFromObjDict({str(self.__id): str(self)})
+            ObjectLists.removeFromPlaList(str(self))
+        except ValueError:
+            pass
+
+
     def getPositionVector(self):
         """The get method for the positionVector. Returns the positionVector as type Vector3D."""
         return self.__positionVector

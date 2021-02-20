@@ -71,4 +71,24 @@ class ObjectLists:
     def appendPlaList(self, x):
         self.__plaList.append(x)
 
+    @classmethod
+    def removeFromObjDict(self, x):
+        self.__objDict.pop(x)
+
+    @classmethod
+    def removeFromVecList(self, x):
+        self.__vecList.remove(x)
+
+    @classmethod
+    def removeFromPoiList(self, x):
+        self.__poiList.remove(x)
+
+    @classmethod
+    def removeFromLinList(self, x):
+        self.__linList.remove(x)
+
+    @classmethod
+    def removeFromPlaList(self, x):
+        self.__plaList.remove(x)
+
 
