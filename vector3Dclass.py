@@ -1,4 +1,5 @@
 import math
+from listclass import ObjectLists
 
 class Vector3D():
     __idTag = "vec"
@@ -19,6 +20,9 @@ class Vector3D():
         self.__idCount += 1
         self.__id = str(self.__idTag+str(self.__idCount))
         self.__color = (0,0,0)
+
+        ObjectLists.appendObjDict({str(self.__id): str(self)})
+        ObjectLists.appendVecList(str(self))
 
 
     def getX(self):

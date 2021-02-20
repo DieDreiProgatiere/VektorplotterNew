@@ -1,6 +1,7 @@
 
 from typing import Any
 from math import sqrt
+from listclass import ObjectLists
 from vector3Dclass import Vector3D as Vector3D
 
 class Plane:
@@ -50,6 +51,9 @@ class Plane:
         self.__color = color
         self.__idCount += 1
         self.__id = str(self.__idTag) + str(self.__idCount)
+
+        ObjectLists.appendObjDict({str(self.__id): str(self)})
+        ObjectLists.appendPlaList(str(self))
 
 
     def getPositionVector(self):

@@ -1,6 +1,6 @@
 
 
-class ObjectLists:
+class Lists:
 
     __objDict = {}
     __vecList = []
@@ -40,3 +40,21 @@ class ObjectLists:
 
     def getPlaListLen(self):
         return len(self.__plaList)
+
+    def appendObjDict(self, x):
+        self.__objDict.update(x)
+
+    def appendVecList(self, x):
+        self.__vecList.append(x)
+
+    def appendPoiList(self, x):
+        self.__poiList.append(x)
+
+    def appendLinList(self, x):
+        self.__linList.append(x)
+
+    def appendPlaList(self, x):
+        self.__plaList.append(x)
+
+
+ObjectLists = Lists()
