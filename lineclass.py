@@ -1,6 +1,6 @@
 import math
 from typing import Any
-
+from listclass import ObjectLists
 from vector3Dclass import Vector3D as Vector3D
 
 class Line:
@@ -16,6 +16,17 @@ class Line:
         self.__color = color
         self.__idCount += 1
         self.__id = str(self.__idTag) + str(self.__idCount)
+
+        ObjectLists.appendObjDict({str(self.__id): str(self)})
+        ObjectLists.appendLinList(str(self))
+
+
+    def __del__(self):
+        try:
+            ObjectLists.removeFromObjDict({str(self.__id): str(self)})
+            ObjectLists.removeFromLinList(str(self))
+        except ValueError:
+            pass
 
 
     def getPositionVector(self):
@@ -100,10 +111,11 @@ class Line:
 
     def __str__(self):
         """Str method. Using given line instance, returns string."""
-        return str(self.__id)+": x = "+ str(self.__positionVector)+" + "+str(self.__parameter)+" * "+str(self.__directionVector)
+        return str(self.__id)+": x = "+ str(self.__positionVector)+" + r * "+str(self.__directionVector)
 
     posVec = property(getPositionVector, setPositionVector)
 
     dirVec = property(getDirectionVector, setDirectionVector)
 
     name = property(getName, setName)
+

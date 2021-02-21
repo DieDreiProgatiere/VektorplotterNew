@@ -1,4 +1,4 @@
-
+from listclass import ObjectLists
 
 class Point():
     __idTag = "poi"
@@ -12,6 +12,18 @@ class Point():
         self.__idCount += 1
         self.__id = str(self.__idTag+str(self.__idCount))
         self.__color = (0,0,0)
+
+        ObjectLists.appendObjDict({str(self.__id): str(self)})
+        ObjectLists.appendPoiList(str(self))
+
+
+    def __del__(self):
+        try:
+            ObjectLists.removeFromObjDict({str(self.__id): str(self)})
+            ObjectLists.removeFromPoiList(str(self))
+        except ValueError:
+            pass
+
 
     def __str__(self):
         """Str method for testing purposes.
