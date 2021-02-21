@@ -2,18 +2,30 @@ import math
 from typing import Any
 from listclass import ObjectLists
 from vector3Dclass import Vector3D as Vector3D
+from colorAssignclass import ColorAssign
+from nameAssignclass import NameAssign
+from pointclass import Point
 
 class Line:
     __idTag = "lin"
     __idCount = 0
 
 
-    def __init__(self, positionVector :Vector3D, directionVector :Vector3D, name :str = "", color :tuple = (0, 0, 0)):
-        """The init method of the line class. Takes positionVector and directionVector as Vector3D, parameter as int or float, name as string and color as tuple of format: (Red, Green, Blue)(Valuerange = 0 to 256)."""
+    def __init__(self, positionVector :Vector3D, directionVector :Vector3D, name = None, color = None):
+        """The init method of the line class.
+           Takes positionVector and directionVector as Vector3D, parameter as int or float, name as string
+           and color as tuple of format: (Red, Green, Blue)(Valuerange = 0 to 256).
+           Pass dtype None for color  or name for it to be automatically assigned."""
         self.__positionVector = positionVector
         self.__directionVector = directionVector
-        self.__name = name
-        self.__color = color
+        if name == None:
+            self.__name = NameAssign.getNewName()
+        else:
+            self.__name = name
+        if color == None:
+            self.__color = ColorAssign.getNewColor()
+        else:
+            self.__color = color
         self.__idCount += 1
         self.__id = str(self.__idTag) + str(self.__idCount)
 
@@ -104,6 +116,16 @@ class Line:
         self.__color = color
 
 
+    def pointOnLine(self, coefficient):
+        """Returns a Point objekt of the point on the line with the coefficient.
+           Takes coefficient as float or int."""
+        return Point(
+            self.__directionVector.x*coefficient+self.__positionVector.x,
+            self.__directionVector.y*coefficient+self.__positionVector.y,
+            self.__directionVector.z*coefficient+self.__positionVector.z
+            )
+
+
     def normalizeDirectionVector(self):
         """Not yet implemented. Should make the length of the direction vector equal to 1, by dividing the vector with its length. (Einheitsnormalvektor)"""
         pass
@@ -118,4 +140,3 @@ class Line:
     dirVec = property(getDirectionVector, setDirectionVector)
 
     name = property(getName, setName)
-
