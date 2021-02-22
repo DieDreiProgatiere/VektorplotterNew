@@ -2,12 +2,13 @@ import math
 import random
 # import matplotlib.pyplot as plt  # Needed only for displaying of colors using included testing code
 
-class ColorAssign():
+
+class ColorAssign:
     __colorList = []
-    __maxValues = (255,255,255)
-    __minValues = (0,0,0)
+    __maxValues = (255, 255, 255)
+    __minValues = (0, 0, 0)
     __protectionEnvironment = 50
-    __illegalColors = [(0,0,0),(255,255,255)]
+    __illegalColors = [(0, 0, 0), (255, 255, 255)]
 
     def __init__(self):
         """placeholder; not necessary"""

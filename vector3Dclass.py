@@ -4,7 +4,7 @@ from nameAssignclass import NameAssign
 from colorAssignclass import ColorAssign
 
 
-class Vector3D():
+class Vector3D:
     __idTag = "vec"
     __idCount = 0
 
@@ -29,15 +29,17 @@ class Vector3D():
             self.__color = ColorAssign.getNewColor()
         else:
             self.__color = color
-        self.__idCount += 1
+        Vector3D.__idCount += 1
         self.__id = str(self.__idTag+str(self.__idCount))
-        ObjectLists.appendObjDict({str(self.__id): str(self)})
-        ObjectLists.appendVecList(str(self))
+        ObjectLists.appendObjDict({str(self.__id) : self})
+        ObjectLists.appendVecList(self)
 
     def __del__(self):
+        ColorAssign.removeColor(self.__color)
+        NameAssign.removeName(self.__name)
         try:
-            ObjectLists.removeFromObjDict({str(self.__id): str(self)})
-            ObjectLists.removeFromVecList(str(self))
+            ObjectLists.removeFromVecList(self)
+            ObjectLists.removeFromObjDict(str(self.__id))
         except ValueError:
             pass
 

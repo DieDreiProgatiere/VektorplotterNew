@@ -3,27 +3,28 @@ from typing import Any
 from math import sqrt
 from listclass import ObjectLists
 from vector3Dclass import Vector3D as Vector3D
+from nameAssignclass import NameAssign
+from colorAssignclass import ColorAssign
+
 
 class Plane:
     __idTag = "pla"
     __idCount = 0
     __typeOfPlane = None
 
-
     @classmethod
     def parameterForm(cls,
                       positionVector: Vector3D,
                       directionVectorOne: Vector3D,
                       directionVectorTwo: Vector3D,
-                      name: str = "",
-                      color: tuple = (0, 0, 0)):
+                      name=None,
+                      color=None):
         """The classmethod for initializing a Plane in parameter Form.
            Takes positionVector and directionVectorOne and directionVectorTwo as Vector3D, parameter as int or float,
            name as string and color as tuple of format: (Red, Green, Blue)(Valuerange = 0 to 256)."""
         plane = cls(positionVector, directionVectorOne, directionVectorTwo, None, None, name, color)
         cls.__typeOfPlane = "parameter"
         return plane
-
 
     @classmethod
     def normalForm(cls,
@@ -38,13 +39,12 @@ class Plane:
         cls.__typeOfPlane = "normal"
         return plane
 
-
     @classmethod
     def coordinateForm(cls,
                        normalVector :Vector3D,
                        scalarParameter :float,
-                       name :str = "",
-                       color :tuple = (0, 0, 0)):
+                       name=None,
+                       color=None):
         """The classmethod for initializing a Plane in coordinate Form.
            Takes a, b, c, d as float, name as string and color as tuple of format:
            (Red, Green, Blue)(Valuerange = 0 to 256).
@@ -54,13 +54,13 @@ class Plane:
         return plane
 
     def __init__(self,
-                 positionVector :Vector3D,
-                 directionVectorOne :Vector3D,
-                 directionVectorTwo :Vector3D,
-                 normalVector :Vector3D,
-                 scalarParameter :float,
-                 name :str = "",
-                 color :tuple = (0, 0, 0)):
+                 positionVector: Vector3D,
+                 directionVectorOne: Vector3D,
+                 directionVectorTwo: Vector3D,
+                 normalVector: Vector3D,
+                 scalarParameter: float,
+                 name=None,
+                 color=None):
         """The init method of the plane class.
            Takes positionVector and directionVectorOne and directionVectorTwo as Vector3D, parameter as int or float,
            name as string and color as tuple of format: (Red, Green, Blue)(Valuerange = 0 to 256)."""
@@ -75,18 +75,26 @@ class Plane:
         except Exception:
             pass
 
-        self.__name = name
-        self.__color = color
-        self.__idCount += 1
+        if name is None:
+            self.__name = NameAssign.getNewName()
+        else:
+            self.__name = name
+        if color is None:
+            self.__color = ColorAssign.getNewColor()
+        else:
+            self.__color = color
+        Plane.__idCount += 1
         self.__id = str(self.__idTag) + str(self.__idCount)
 
-        ObjectLists.appendObjDict({str(self.__id): str(self)})
-        ObjectLists.appendPlaList(str(self))
+        ObjectLists.appendObjDict({str(self.__id): self})
+        ObjectLists.appendPlaList(self)
 
     def __del__(self):
+        ColorAssign.removeColor(self.__color)
+        NameAssign.removeName(self.__name)
         try:
-            ObjectLists.removeFromObjDict({str(self.__id): str(self)})
-            ObjectLists.removeFromPlaList(str(self))
+            ObjectLists.removeFromPlaList(self)
+            ObjectLists.removeFromObjDict(str(self.__id))
         except ValueError:
             pass
 
@@ -165,10 +173,10 @@ class Plane:
         posVec = self.__positionVector
         normVec = self.__directionVectorOne.vectorProduct(self.__directionVectorTwo)
         nameVec = self.__name
-        hess = Plane.normalForm(posVec,normVec,nameVec)
+        hess = Plane.normalForm(posVec, normVec, nameVec)
         hess.setNormalVector(normVec.scalarDivision(normVec.length()))
         self.__typeOfPlane = "normal"
-        return hess
+        return hess  # dieses Return is wichtig; bei bug-fix bitte beibehalten
 
     def __str__(self):
         if self.__typeOfPlane == "normal":
@@ -191,4 +199,3 @@ class Plane:
     scalParam = property(getScalarParameter, setScalarParameter)
 
     name = property(getName, setName)
-

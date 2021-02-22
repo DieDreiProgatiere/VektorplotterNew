@@ -1,27 +1,36 @@
 from listclass import ObjectLists
+from colorAssignclass import ColorAssign
+from nameAssignclass import NameAssign
 
 
-class Point():
+class Point:
     __idTag = "poi"
     __idCount = 0
 
-    def __init__(self, x=0, y=0, z=0, name=""):
+    def __init__(self, x=0, y=0, z=0, name=None, color=None):
         self.__x = float(x)
         self.__y = float(y)
         self.__z = float(z)
-        self.__name = str(name)
-        self.__idCount += 1
+        Point.__idCount += 1
         self.__id = str(self.__idTag+str(self.__idCount))
-        self.__color = (0,0,0)
+        if name is None:
+            self.__name = NameAssign.getNewName()
+        else:
+            self.__name = name
+        if color is None:
+            self.__color = ColorAssign.getNewColor()
+        else:
+            self.__color = color
 
-        ObjectLists.appendObjDict({str(self.__id): str(self)})
-        ObjectLists.appendPoiList(str(self))
+        ObjectLists.appendObjDict({str(self.__id): self})
+        ObjectLists.appendPoiList(self)
 
     def __del__(self):
-
+        ColorAssign.removeColor(self.__color)
+        NameAssign.removeName(self.__name)
         try:
-            ObjectLists.removeFromObjDict({str(self.__id): str(self)})
-            ObjectLists.removeFromPoiList(str(self))
+            ObjectLists.removeFromPoiList(self)
+            ObjectLists.removeFromObjDict(str(self.__id))
         except ValueError:
             pass
 

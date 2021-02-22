@@ -30,16 +30,18 @@ class Line:
             self.__color = ColorAssign.getNewColor()
         else:
             self.__color = color
-        self.__idCount += 1
+        Line.__idCount += 1
         self.__id = str(self.__idTag) + str(self.__idCount)
 
-        ObjectLists.appendObjDict({str(self.__id): str(self)})
-        ObjectLists.appendLinList(str(self))
+        ObjectLists.appendObjDict({str(self.__id): self})
+        ObjectLists.appendLinList(self)
 
     def __del__(self):
+        ColorAssign.removeColor(self.__color)
+        NameAssign.removeName(self.__name)
         try:
-            ObjectLists.removeFromObjDict({str(self.__id): str(self)})
-            ObjectLists.removeFromLinList(str(self))
+            ObjectLists.removeFromLinList(self)
+            ObjectLists.removeFromObjDict(str(self.__id))
         except ValueError:
             pass
 
