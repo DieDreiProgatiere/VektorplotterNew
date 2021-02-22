@@ -90,5 +90,3 @@ class ObjectLists:
     @classmethod
     def removeFromPlaList(self, x):
         self.__plaList.remove(x)
-
-

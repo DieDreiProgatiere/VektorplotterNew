@@ -6,23 +6,27 @@ from colorAssignclass import ColorAssign
 from nameAssignclass import NameAssign
 from pointclass import Point
 
+
 class Line:
     __idTag = "lin"
     __idCount = 0
 
-
-    def __init__(self, positionVector :Vector3D, directionVector :Vector3D, name = None, color = None):
+    def __init__(self,
+                 positionVector: Vector3D,
+                 directionVector: Vector3D,
+                 name=None,
+                 color=None):
         """The init method of the line class.
            Takes positionVector and directionVector as Vector3D, parameter as int or float, name as string
            and color as tuple of format: (Red, Green, Blue)(Valuerange = 0 to 256).
            Pass dtype None for color  or name for it to be automatically assigned."""
         self.__positionVector = positionVector
         self.__directionVector = directionVector
-        if name == None:
+        if name is None:
             self.__name = NameAssign.getNewName()
         else:
             self.__name = name
-        if color == None:
+        if color is None:
             self.__color = ColorAssign.getNewColor()
         else:
             self.__color = color
@@ -32,7 +36,6 @@ class Line:
         ObjectLists.appendObjDict({str(self.__id): str(self)})
         ObjectLists.appendLinList(str(self))
 
-
     def __del__(self):
         try:
             ObjectLists.removeFromObjDict({str(self.__id): str(self)})
@@ -40,81 +43,74 @@ class Line:
         except ValueError:
             pass
 
-
     def getPositionVector(self):
         """The get method for the positionVector. Returns the positionVector as type Vector3D."""
         return self.__positionVector
-
 
     def getDirectionVector(self):
         """The get method for the driectionVector. Returns the directionVector as type Vector3D."""
         return self.__directionVector
 
-
     def getName(self):
         """The get method for the name. Returns name as a string."""
         return str(self.__name)
-
 
     def getID(self):
         """The get method for the ID. Returns ID as string."""
         return str(self.__id)
 
-
     def getColor(self):
-        """The get method for the color. Returns color as tuple of format: (Red, Green, Blue). Valuerange = 0 to 256"""
+        """The get method for the color.
+           Returns color as tuple of format: (Red, Green, Blue). Valuerange = 0 to 256"""
         return self.__color
 
-
     def setPositionVector(self, posVector):
-        """The set method for the positionVector. Takes the positionVector as type Vector3D."""
+        """The set method for the positionVector.
+           Takes the positionVector as type Vector3D."""
         self.__positionVector = posVector
 
-
     def setPositionVectorX(self, x):
-        """The set method for the x component of the positionVector. Takes the x component of the positionVector as float."""
+        """The set method for the x component of the positionVector.
+           Takes the x component of the positionVector as float."""
         self.__positionVector.setX(x)
 
-
     def setPositionVectorY(self, y):
-        """The set method for the y component of the positionVector. Takes the y component of the positionVector as float."""
+        """The set method for the y component of the positionVector.
+           Takes the y component of the positionVector as float."""
         self.__positionVector.setY(float(y))
 
-
     def setPositionVectorZ(self, z):
-        """The set method for the z component of the positionVector. Takes the z component of the positionVector as float."""
+        """The set method for the z component of the positionVector.
+           Takes the z component of the positionVector as float."""
         self.__positionVector.setZ(z)
 
-
     def setDirectionVector(self, dirVector):
-        """The set method for the driectionVector. Takes the directionVector as type Vector3D."""
+        """The set method for the driectionVector.
+           Takes the directionVector as type Vector3D."""
         self.__directionVector = dirVector
 
-    
     def setDirectionVectorX(self, x):
-        """The set method for the x component of the directionVector. Takes the x component of the directionVector as float."""
+        """The set method for the x component of the directionVector.
+           Takes the x component of the directionVector as float."""
         self.__directionVector.setX(x)
 
-
     def setDirectionVectorY(self, y):
-        """The set method for the y component of the directionVector. Takes the y component of the directionVector as float."""
+        """The set method for the y component of the directionVector.
+           Takes the y component of the directionVector as float."""
         self.__directionVector.setY(y)
 
-
     def setDirectionVectorZ(self, z):
-        """The set method for the z component of the directionVector. Takes the z component of the directionVector as float."""
+        """The set method for the z component of the directionVector.
+           Takes the z component of the directionVector as float."""
         self.__directionVector.setZ(z)
-
 
     def setName(self, name):
         """The set method for the name. Takes name as a string."""
         self.__name = str(name)
 
-
     def setColor(self, color):
         """The set method for the color. Takes color as tuple of format: (Red, Green, Blue). Valuerange = 0 to 256"""
         self.__color = color
-
 
     def pointOnLine(self, coefficient):
         """Returns a Point objekt of the point on the line with the coefficient.
@@ -125,11 +121,10 @@ class Line:
             self.__directionVector.z*coefficient+self.__positionVector.z
             )
 
-
     def normalizeDirectionVector(self):
-        """Not yet implemented. Should make the length of the direction vector equal to 1, by dividing the vector with its length. (Einheitsnormalvektor)"""
+        """Not yet implemented. Should make the length of the direction vector equal to 1,
+           by dividing the vector with its length. (Einheitsnormalvektor)"""
         pass
-
 
     def __str__(self):
         """Str method. Using given line instance, returns string."""

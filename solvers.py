@@ -14,7 +14,9 @@ class Solvers():
         pass
 
     @classmethod
-    def solveForSchnittstelle(self,line1,line2):
+    def solveForSchnittstelle(self,
+                              line1,
+                              line2):
         coefficientMatrix = [
             [line1.dirVec.x,-line2.dirVec.x],
             [line1.dirVec.y,-line2.dirVec.y],
@@ -77,34 +79,57 @@ class Solvers():
         return answers
 
     @classmethod
-    def solveForSchnittgerade(self,plane1,plane2):
+    def solveForSchnittgerade(self,
+                              plane1,
+                              plane2):
         pass
 
     @classmethod
-    def schnittpunkt(self,line1,line2):
-        schnittstelle = self.solveForSchnittstelle(line1,line2)
+    def schnittpunkt(self,
+                     line1,
+                     line2):
+        schnittstelle = self.solveForSchnittstelle(line1, line2)
         schnittpunkt = line1.pointOnLine(schnittstelle[0])
         return schnittpunkt
 
     @classmethod
-    def schnittgerade(self,plane1,plane2):
+    def schnittgerade(self,
+                      plane1,
+                      plane2):
         pass
 
     @classmethod
-    def checkParallel(self,objekt1,objekt2):
+    def checkParallel(self,
+                      objekt1,
+                      objekt2):
         pass
 
     @classmethod
-    def checkPointInLine(self,line,point):
+    def checkPointInLine(self,
+                         line,
+                         point):
         pass
 
     @classmethod
-    def checkColinear(self,obj1,obj2):
+    def checkColinear(self,
+                      obj1,
+                      obj2):
         pass
 
     @classmethod
-    def solveForSchnittwinkel(self,line,objekt):
-        pass
+    def solveForSchnittwinkel(self,
+                              objekt1,
+                              objekt2):
+        winkel = None
+        if type(objekt1) == Line and type(objekt2) == Line:
+            pass
+        elif type(objekt1) == Line and type(objekt2) == Plane:
+            pass
+        elif type(objekt1) == Plane and type(objekt2) == Plane:
+            pass
+        else:
+            print("We cannot calculate this Angle.")
+        return winkel
 
 
 v1= Vector3D(0,0,0)
@@ -115,3 +140,4 @@ lin1= Line(v1,v3)
 lin2 = Line(v2,v4)
 print("lins created")
 print(Solvers.schnittpunkt(lin1,lin2))
+print(type(lin1)==Line)
