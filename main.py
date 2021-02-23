@@ -6,6 +6,9 @@ except Exception:
     pass
 from lineclass import Line
 from planeclass import Plane
+from colorAssignclass import ColorAssign
+from nameAssignclass import NameAssign
+from listclass import ObjectLists
 
 VecList = []
 PoiList = []
@@ -16,7 +19,9 @@ running = True
 
 while running:
 
-    UserInput = input("Nächste Operation [NewVec;AddVec;ScalMultVec;VecMultVecScal;VecMultVecCro;NewPoi;NewLin;NewPla;ConvertPlaToHess;X]: ")
+    UserInput = input(
+        """Nächste Operation [NewVec;AddVec;ScalMultVec;VecMultVecScal;VecMultVecCro;NewPoi;NewLin;NewPla;ConvertPlaToHess;X]: """
+        )
     
     if UserInput == "NewVec":
         VecList.append(Vector3D(input("x = "),input("y = "),input("z = "),input("Name = ")))

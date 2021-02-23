@@ -73,7 +73,9 @@ class ObjectLists:
 
     @classmethod
     def removeFromObjDict(self, x):
-        self.__objDict.pop(x)
+        # Return erlaubt das Löschen von Objekten im Format:
+        # ObjectLists.removeFrom???List(ObjectLists.removeFromObjDict("objID"))
+        return self.__objDict.pop(x)
 
     @classmethod
     def removeFromVecList(self, x):
@@ -90,5 +92,3 @@ class ObjectLists:
     @classmethod
     def removeFromPlaList(self, x):
         self.__plaList.remove(x)
-
-
