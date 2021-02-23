@@ -121,6 +121,10 @@ class Vector3D:
         of two given Vector3D instances as a scalar (float)."""
         return float(self.__x*other.__x+self.__y*other.__y+self.__z*other.__z)
 
+    def square(self):
+        """Returns the scalar Product of a Vector3D with itself."""
+        return self.scalarProduct(self)
+
     def scalarMultiplication(self, scalar):
         """Scalar multiplication (elongation by scalar) of
         a given Vector3D instance and a scalar (int or float).
