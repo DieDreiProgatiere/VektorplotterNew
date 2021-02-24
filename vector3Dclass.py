@@ -150,7 +150,7 @@ class Vector3D:
         x = ((self.__y * other.__z) - (self.__z * other.__y))
         y = ((self.__z * other.__x) - (self.__x * other.__z))
         z = ((self.__x * other.__y) - (self.__y * other.__x))
-        return Vector3D(x,y,z)
+        return Vector3D(x, y, z)
 
     def length(self):
         """Returns the lenght of the given Vector3D instance."""

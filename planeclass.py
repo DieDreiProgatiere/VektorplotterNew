@@ -41,8 +41,8 @@ class Plane:
 
     @classmethod
     def coordinateForm(cls,
-                       normalVector :Vector3D,
-                       scalarParameter :float,
+                       normalVector: Vector3D,
+                       scalarParameter: float,
                        name=None,
                        color=None):
         """The classmethod for initializing a Plane in coordinate Form.
@@ -160,7 +160,6 @@ class Plane:
         """The set method for the name. Takes name as a string."""
         self.__name = str(name)
 
-
     def setColor(self,
                  color):
         """The set method for the color. Takes color as tuple of format: (Red, Green, Blue). Valuerange = 0 to 256"""
@@ -169,18 +168,19 @@ class Plane:
     def convertToHessianNormalForm(self):
         """Converts the given Instance to Hessian Normal Form.
         The Normal Vector is transformed into a Normal Vector of length 1."""
-
-        posVec = self.__positionVector
-        normVec = self.__directionVectorOne.vectorProduct(self.__directionVectorTwo)
-        nameVec = self.__name
-        hess = Plane.normalForm(posVec, normVec, nameVec)
-        hess.setNormalVector(normVec.scalarDivision(normVec.length()))
-        self.__typeOfPlane = "normal"
-        return hess  # dieses Return is wichtig; bei bug-fix bitte beibehalten
+        if self.__typeOfPlane == "normal":
+            self.setNormalVector(self.normVec.scalarDivision(self.normVec.length()))
+        if self.__typeOfPlane == "parameter":
+            self.normVec = self.__directionVectorOne.vectorProduct(self.__directionVectorTwo)
+            self.setNormalVector(self.normVec.scalarDivision(self.normVec.length()))
+        self.__typeOfPlane = "hessnormal"
+        return self  # dieses Return is wichtig; bei bug-fix bitte beibehalten
 
     def __str__(self):
         if self.__typeOfPlane == "normal":
-            return str(self.__id)+": (x - "+ str(self.__positionVector)+" + ) * "+str(self.__normalVector)+" = 0"
+            return str(self.__id)+": (x - "+ str(self.__positionVector)+" ) * "+str(self.__normalVector)+" = 0"
+        elif self.__typeOfPlane == "hessnormal":
+            return str(self.__id)+": (x - "+ str(self.__positionVector)+" ) * "+str(self.__normalVector)+" = 0"
         elif self.__typeOfPlane == "parameter":
             return str(self.__id)+": x = "+str(self.__positionVector)+" + r * "+str(self.__directionVectorOne)+" + s * "+str(self.__directionVectorTwo)
         elif self.__typeOfPlane == "coordinate":

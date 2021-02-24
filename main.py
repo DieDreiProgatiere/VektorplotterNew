@@ -18,20 +18,21 @@ PlaList = []
 running = True
 
 while running:
-
+    for element in ObjectLists.getObjDict():
+        print(" --- "+str(element))
     UserInput = input(
         """Nächste Operation [NewVec;AddVec;ScalMultVec;VecMultVecScal;VecMultVecCro;NewPoi;NewLin;NewPla;ConvertPlaToHess;X]: """
         )
     
     if UserInput == "NewVec":
-        VecList.append(Vector3D(input("x = "),input("y = "),input("z = "),input("Name = ")))
+        VecList.append(Vector3D(input("x = "), input("y = "), input("z = "), input("Name = ")))
         print(str(VecList[-1]))
     elif UserInput == "AddVec":
-        Vec1 = Vector3D(input("x = "),input("y = "),input("z = "),input("Name = "))
-        Vec2 = Vector3D(input("x = "),input("y = "),input("z = "),input("Name = "))
+        Vec1 = Vector3D(input("x = "), input("y = "), input("z = "), input("Name = "))
+        Vec2 = Vector3D(input("x = "), input("y = "), input("z = "), input("Name = "))
         print("Ergebnis: " + str(Vec1.add(Vec2)))
     elif UserInput == "ScalMultVec":
-        Vec1 = Vector3D(input("x = "),input("y = "),input("z = "),input("Name = "))
+        Vec1 = Vector3D(input("x = "), input("y = "), input("z = "), input("Name = "))
         scal = float(input("Scalar: "))
         print("Ergebnis: " + str(Vec1.scalarMultiplication(scal)))
     elif UserInput == "VecMultVecScal":
