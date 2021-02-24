@@ -29,7 +29,7 @@ class MainGUI(tk.Frame):
 
 
     def makeListFrame(self):
-        self.listFrame = tk.Frame(self.mainframe, borderwidth = 1, bg = "#EEEEEE", relief = RIDGE)
+        self.listFrame = tk.Frame(self.mainframe, borderwidth = 1)
         self.listFrame.grid(column = 0, row = 1, sticky = tk.N + tk.E + tk.S)
         for element, index in zip(ObjectLists.getObjDict(), range(ObjectLists.getObjDictLen())):
             self.objButton = tk.Button(self.listFrame, text = str(element) + str(ObjectLists.getObjDict()[element]), command = self.funktion)
@@ -40,7 +40,7 @@ class MainGUI(tk.Frame):
 
 
     def makeCanvasFrame(self):
-        self.canvasFrame = tk.Frame(self.mainframe, borderwidth = 1, bg = "#DDDDDD", relief = RIDGE)
+        self.canvasFrame = tk.Frame(self.mainframe, borderwidth = 1)
         self.canvasFrame.grid(column = 1, row = 1, sticky = tk.N + tk.W + tk.S)
 
     def makeMenuFrame(self):
