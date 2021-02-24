@@ -130,7 +130,7 @@ class Line:
 
     def __str__(self):
         """Str method. Using given line instance, returns string."""
-        return str(self.__id)+": x = "+ str(self.__positionVector)+" + r * "+str(self.__directionVector)
+        return "x = "+ str(self.__positionVector)+" + r * "+str(self.__directionVector)
 
     posVec = property(getPositionVector, setPositionVector)
 
