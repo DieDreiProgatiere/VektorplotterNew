@@ -30,8 +30,8 @@ class Plane:
     def normalForm(cls,
                    positionVector: Vector3D,
                    normalVector: Vector3D,
-                   name: str = "",
-                   color: tuple = (0, 0, 0)):
+                   name=None,
+                   color=None):
         """The classmethod for intializing a Plane in normal Form.
            Takes positionVector and normalVector as Vector3D, name as string and color as tuple of format:
            (Red, Green, Blue)(Valuerange = 0 to 256)."""
