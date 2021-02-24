@@ -18,7 +18,7 @@ class MainGUI(tk.Frame):
     def __init__(self):
         self.root = tk.Tk()
         self.root.title("Vektorplotter")
-        self.root.geometry("1100x700")
+        self.root.geometry("1200x800")
         self.root.resizable(0, 0)
 
     def makeMainframe(self):
@@ -32,8 +32,11 @@ class MainGUI(tk.Frame):
         self.listFrame = tk.Frame(self.mainframe, borderwidth = 1)
         self.listFrame.grid(column = 0, row = 1, sticky = tk.N + tk.E + tk.S)
         for element, index in zip(ObjectLists.getObjDict(), range(ObjectLists.getObjDictLen())):
-            self.objButton = tk.Button(self.listFrame, text = str(element) + str(ObjectLists.getObjDict()[element]), command = self.funktion)
+            self.objButton = tk.Button(self.listFrame, text = str(element) + str(ObjectLists.getObjDict()[element]), command = self.funktion, width = 40) # funktion placeholder for future function
             self.objButton.grid(column = 0, row = index)
+
+        self.addButton = tk.Button(self.listFrame, text = "Add new Object +", command = self.funktion, width = 40) # funktion placeholder for future function
+        self.addButton.grid(column = 0, row = ObjectLists.getObjDictLen())
 
     def funktion(self):
         pass
