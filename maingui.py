@@ -14,11 +14,12 @@ y = Plane.normalForm(Vector3D(1, 1, 1), Vector3D(2, 2, 2))
 
 class MainGUI(tk.Frame):
     
+    size = "1200x800"
 
     def __init__(self):
         self.root = tk.Tk()
         self.root.title("Vektorplotter")
-        self.root.geometry("1200x800")
+        self.root.geometry(self.size)
         self.root.resizable(0, 0)
 
     def makeMainframe(self):
@@ -55,7 +56,8 @@ class MainGUI(tk.Frame):
 
 
     def makeLabel(self):
-        self.myLabelCanvas = tk.Label(self.canvasFrame, text = "Hello World 2!", padx = 5, pady = 3).grid(row=0, column=0)
+        self.coord = 10, 10, 300, 300
+        self.arc = self.canvas.create_arc(self.coord, start=0, extent=150, fill="red")
         self.myLabelMenu = tk.Label(self.menuFrame, text = "hello world3").grid(row = 0, column = 0)
 
 
