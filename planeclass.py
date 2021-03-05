@@ -10,7 +10,6 @@ from colorAssignclass import ColorAssign
 class Plane:
     __idTag = "pla"
     __idCount = 0
-    __typeOfPlane = None
 
     @classmethod
     def parameterForm(cls,
@@ -18,12 +17,12 @@ class Plane:
                       directionVectorOne: Vector3D,
                       directionVectorTwo: Vector3D,
                       name=None,
-                      color=None):
+                      color=None,
+                      typeOfPlane="parameter"):
         """The classmethod for initializing a Plane in parameter Form.
            Takes positionVector and directionVectorOne and directionVectorTwo as Vector3D, parameter as int or float,
            name as string and color as tuple of format: (Red, Green, Blue)(Valuerange = 0 to 256)."""
-        plane = cls(positionVector, directionVectorOne, directionVectorTwo, None, None, name, color)
-        cls.__typeOfPlane = "parameter"
+        plane = cls(positionVector, directionVectorOne, directionVectorTwo, None, None, name, color, typeOfPlane)
         return plane
 
     @classmethod
@@ -31,12 +30,12 @@ class Plane:
                    positionVector: Vector3D,
                    normalVector: Vector3D,
                    name=None,
-                   color=None):
+                   color=None,
+                   typeOfPlane="normal"):
         """The classmethod for intializing a Plane in normal Form.
            Takes positionVector and normalVector as Vector3D, name as string and color as tuple of format:
            (Red, Green, Blue)(Valuerange = 0 to 256)."""
-        plane = cls(positionVector, None, None, normalVector, None, name, color)
-        cls.__typeOfPlane = "normal"
+        plane = cls(positionVector, None, None, normalVector, None, name, color, typeOfPlane)
         return plane
 
     @classmethod
@@ -44,13 +43,13 @@ class Plane:
                        normalVector: Vector3D,
                        scalarParameter: float,
                        name=None,
-                       color=None):
+                       color=None, 
+                       typeOfPlane="coordinate"):
         """The classmethod for initializing a Plane in coordinate Form.
            Takes a, b, c, d as float, name as string and color as tuple of format:
            (Red, Green, Blue)(Valuerange = 0 to 256).
            For a equation of the form: ax + by + cz = d."""
-        plane = cls(None, None, None, normalVector, scalarParameter, name, color)
-        cls.__typeOfPlane = "coordinate"
+        plane = cls(None, None, None, normalVector, scalarParameter, name, color, typeOfPlane)
         return plane
 
     def __init__(self,
@@ -60,13 +59,16 @@ class Plane:
                  normalVector: Vector3D,
                  scalarParameter: float,
                  name=None,
-                 color=None):
+                 color=None,
+                 typeOfPlane=""):
         """The init method of the plane class.
            Takes positionVector and directionVectorOne and directionVectorTwo as Vector3D, parameter as int or float,
            name as string and color as tuple of format: (Red, Green, Blue)(Valuerange = 0 to 256)."""
         self.__positionVector = positionVector
         self.__directionVectorOne = directionVectorOne
         self.__directionVectorTwo = directionVectorTwo
+        self.__normalVector = normalVector
+        self.__typeOfPlane = typeOfPlane
 
         # Following code checks if a normalVector was passed. If not: generates normalVector from directionVectors.
 
@@ -74,6 +76,7 @@ class Plane:
             self.__scalarParameter = scalarParameter
         except Exception:
             pass
+
 
         if name is None:
             self.__name = NameAssign.getNewName()
@@ -178,13 +181,13 @@ class Plane:
 
     def __str__(self):
         if self.__typeOfPlane == "normal":
-            return str(self.__id)+": (x - "+ str(self.__positionVector)+" ) * "+str(self.__normalVector)+" = 0"
+            return "(x - "+ str(self.__positionVector)+" ) * "+str(self.__normalVector)+" = 0"
         elif self.__typeOfPlane == "hessnormal":
-            return str(self.__id)+": (x - "+ str(self.__positionVector)+" ) * "+str(self.__normalVector)+" = 0"
+            return "(x - "+ str(self.__positionVector)+" ) * "+str(self.__normalVector)+" = 0"
         elif self.__typeOfPlane == "parameter":
-            return str(self.__id)+": x = "+str(self.__positionVector)+" + r * "+str(self.__directionVectorOne)+" + s * "+str(self.__directionVectorTwo)
+            return "x = "+str(self.__positionVector)+" + r * "+str(self.__directionVectorOne)+" + s * "+str(self.__directionVectorTwo)
         elif self.__typeOfPlane == "coordinate":
-            return str(self.__id)+": "+str(self.__normalVector.getX())+"x + "+str(self.__normalVector.getY())+"y + "+str(self.__normalVector.getZ())+"z = "+str(self.__scalarParameter)
+            return str(self.__normalVector.getX())+"x + "+str(self.__normalVector.getY())+"y + "+str(self.__normalVector.getZ())+"z = "+str(self.__scalarParameter)
         else:
             return "No valid plane!"
 
