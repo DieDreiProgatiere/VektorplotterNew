@@ -9,6 +9,14 @@ from planeclass import Plane
 from nameAssignclass import NameAssign
 from colorAssignclass import ColorAssign
 
+from matplotlib.backends.backend_tkagg import (
+    FigureCanvasTkAgg, NavigationToolbar2Tk)
+# Implement the default Matplotlib key bindings.
+from matplotlib.backend_bases import key_press_handler
+from matplotlib.figure import Figure
+import numpy as np #Needed for testing of embedded matplotlib
+
+
 x = Vector3D(3, 4, 5)
 y = Plane.normalForm(Vector3D(1, 1, 1), Vector3D(2, 2, 2))
 z = Plane.parameterForm(Vector3D(3, 4, 5), Vector3D(2, 2, 2), Vector3D(2, 2, 2))
@@ -23,6 +31,13 @@ class MainGUI(tk.Frame):
         self.root.title("Vektorplotter")
         self.root.geometry(self.size)
         self.root.resizable(0, 0)
+
+        self.makeMainframe()
+        self.makeListFrame()
+        self.makeMenuFrame()
+        self.makeLabel()
+        self.embedMatplotlib()
+        self.root.mainloop()
 
     def makeMainframe(self):
         self.mainframe = tk.Frame(self.root, height = self.height, width = self.width)
@@ -49,33 +64,23 @@ class MainGUI(tk.Frame):
         self.menuFrame.grid(columnspan = 2, column = 0, row = 0, sticky = "NWE")
 
 
-    def makeCanvasFrame(self):
+    def embedMatplotlib(self):
         self.canvasFrame = tk.Frame(self.mainframe, borderwidth = 1)
         self.canvasFrame.grid(column = 1, row = 1, sticky = "NSW")
         self.canvasFrame.columnconfigure(1, weight = 1)
         self.canvasFrame.rowconfigure(1, weight = 1)
-        self.canvasFrame.update()
-        self.canvas = Canvas(self.canvasFrame, width = self.canvasFrame.winfo_height(), height = self.canvasFrame.winfo_height())
-        self.canvas.grid(column = 0, row = 0)
+        ### Testing embedded matplotlib
+        fig = Figure(figsize=(5, 4), dpi=100)
+        t = np.arange(0, 3, .01)
+        fig.add_subplot(111).plot(t, 2 * np.sin(2 * np.pi * t))
+        ### Testing embedded matplotlib over
+        self.canvas = FigureCanvasTkAgg(fig, master=self.canvasFrame)
+        self.canvas.draw()
+        self.canvas.get_tk_widget().grid(column = 0, row = 0)
 
 
     def makeLabel(self):
-        self.canvas.update()
-        self.coord = 0, 0, self.canvas.winfo_width(), self.canvas.winfo_height()
-        self.line = self.canvas.create_line(self.coord, fill="red")
-        self.coord2 = 0, self.canvas.winfo_height(), self.canvas.winfo_width(), 0
-        self.line2 = self.canvas.create_line(self.coord2, fill="red")
         self.myLabelMenu = tk.Label(self.menuFrame, text = "Menu").grid(row = 0, column = 0)
 
 
-    def mainloop(self):
-        self.makeMainframe()
-        self.makeListFrame()
-        self.makeMenuFrame()
-        self.makeCanvasFrame()
-        self.makeLabel()
-        self.root.mainloop()
-
 Example = MainGUI()
-
-Example.mainloop()
