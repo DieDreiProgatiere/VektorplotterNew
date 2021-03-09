@@ -100,6 +100,12 @@ class MainGUI(tk.Frame):
         self.canvas = FigureCanvasTkAgg(fig, master=self.canvasFrame)
         self.canvas.draw()
         self.canvas.get_tk_widget().grid(column = 0, row = 0)
+        self.toolbar = NavigationToolbar2Tk(self.canvas, self.root, pack_toolbar=False)
+        self.toolbar.update()
+        def on_key_press(event):
+            print(f"you pressed {event.key}")
+            key_press_handler(event, self.canvas, self.toolbar)
+        self.canvas.mpl_connect("key_press_event", on_key_press)
 
 
     def makeLabel(self):
