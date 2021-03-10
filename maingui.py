@@ -9,16 +9,15 @@ from planeclass import Plane
 from nameAssignclass import NameAssign
 from colorAssignclass import ColorAssign
 
+import matplotlib
 from matplotlib.backends.backend_tkagg import (
     FigureCanvasTkAgg, NavigationToolbar2Tk)
 # Implement the default Matplotlib key bindings.
 from matplotlib.backend_bases import key_press_handler
 from matplotlib.figure import Figure
+matplotlib.use("TkAgg")
 
 # Needed for testing of embedded matplotlib
-import matplotlib.pyplot as plt
-from matplotlib import cm
-from matplotlib.ticker import LinearLocator
 import numpy as np 
 
 
@@ -75,33 +74,19 @@ class MainGUI(tk.Frame):
         self.canvasFrame.columnconfigure(1, weight = 1)
         self.canvasFrame.rowconfigure(1, weight = 1)
         ### Testing embedded matplotlib
-        fig, ax = plt.subplots(subplot_kw={"projection": "3d"})
-
-        # Make data.
-        X = np.arange(-5, 5, 0.25)
-        Y = np.arange(-5, 5, 0.25)
-        X, Y = np.meshgrid(X, Y)
-        R = np.sqrt(X**2 + Y**2)
-        Z = np.sin(R)
-
-        # Plot the surface.
-        surf = ax.plot_surface(X, Y, Z, cmap=cm.coolwarm,
-                       linewidth=0, antialiased=False)
-
-        # Customize the z axis.
-        ax.set_zlim(-1.01, 1.01)
-        ax.zaxis.set_major_locator(LinearLocator(10))
-        # A StrMethodFormatter is used automatically
-        ax.zaxis.set_major_formatter('{x:.02f}')
-
-        # Add a color bar which maps values to colors.
-        fig.colorbar(surf, shrink=0.5, aspect=5)
+        fig = Figure(figsize=(5, 4), dpi=100)
+        ax = fig.add_subplot(111, projection="3d")
+        t = np.arange(0, 3, 0.01)
+        ax.plot(t, 2 * np.sin(2 * np.pi * t))
+        ax.mouse_init()
         ### Testing embedded matplotlib over
         self.canvas = FigureCanvasTkAgg(fig, master=self.canvasFrame)
         self.canvas.draw()
         self.canvas.get_tk_widget().grid(column = 0, row = 0)
         self.toolbar = NavigationToolbar2Tk(self.canvas, self.root, pack_toolbar=False)
         self.toolbar.update()
+        self.canvas.get_tk_widget().grid(column = 0, row = 0)
+    
         def on_key_press(event):
             print(f"you pressed {event.key}")
             key_press_handler(event, self.canvas, self.toolbar)
