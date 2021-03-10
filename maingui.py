@@ -34,12 +34,11 @@ class MainGUI(tk.Frame):
         self.root = tk.Tk()
         self.root.title("Vektorplotter")
         self.root.geometry(self.size)
-        self.root.resizable(0, 0)
+        #self.root.resizable(0, 0)
 
         self.makeMainframe()
         self.makeListFrame()
         self.makeMenuFrame()
-        self.makeLabel()
         self.embedMatplotlib()
         self.root.mainloop()
 
@@ -55,10 +54,12 @@ class MainGUI(tk.Frame):
         self.listFrame.grid(column = 0, row = 1, sticky = "NES")
         for element, index in zip(ObjectLists.getObjDict(), range(ObjectLists.getObjDictLen())):
             self.objButton = tk.Button(self.listFrame, text = str(element) + str(ObjectLists.getObjDict()[element]), width = 50, command = self.funktion) # funktion placeholder for future function
-            self.objButton.grid(ipady = 10, column = 0, row = index)
+            self.objButton.grid(ipady = 10, column = 0, row = index, columnspan = 2)
 
-        self.addButton = tk.Button(self.listFrame, text = "Add new Object +", width = 50, command = self.funktion) # funktion placeholder for future function
-        self.addButton.grid(ipady = 10, column = 0, row = ObjectLists.getObjDictLen())
+        self.addVecButton = tk.Button(self.listFrame, text = "Add new Object +", width = 25, command = self.funktion) # funktion placeholder for future function
+        self.addVecButton.grid(ipady = 10, column = 0, row = ObjectLists.getObjDictLen())
+        self.addCalcButton = tk.Button(self.listFrame, text = "Add new Calculation +", width = 25, command = self.funktion) # funktion placeholder for future function
+        self.addCalcButton.grid(ipady = 10, column = 1, row = ObjectLists.getObjDictLen())
 
     def funktion(self):
         pass
@@ -66,6 +67,9 @@ class MainGUI(tk.Frame):
     def makeMenuFrame(self):
         self.menuFrame = tk.Frame(self.mainframe, borderwidth = 1)
         self.menuFrame.grid(columnspan = 2, column = 0, row = 0, sticky = "NWE")
+
+        self.spurButton = tk.Button(self.menuFrame, text = "Spurpunkte", width = 10, command = self.funktion) # funktion placeholder for future function
+        self.spurButton.grid(ipady = 10, column = 0, row = 0)
 
 
     def embedMatplotlib(self):
@@ -85,16 +89,16 @@ class MainGUI(tk.Frame):
         self.canvas.get_tk_widget().grid(column = 0, row = 0)
         self.toolbar = NavigationToolbar2Tk(self.canvas, self.root, pack_toolbar=False)
         self.toolbar.update()
-        self.canvas.get_tk_widget().grid(column = 0, row = 0)
+        def onclick(event):
+            print('%s click: button=%d, x=%d, y=%d, xdata=%f, ydata=%f' %
+                ('double' if event.dblclick else 'single', event.button,
+            event.x, event.y, event.xdata, event.ydata))
+        self.canvas.mpl_connect('button_press_event', onclick)
+        
+
     
-        def on_key_press(event):
-            print(f"you pressed {event.key}")
-            key_press_handler(event, self.canvas, self.toolbar)
-        self.canvas.mpl_connect("key_press_event", on_key_press)
 
-
-    def makeLabel(self):
-        self.myLabelMenu = tk.Label(self.menuFrame, text = "Menu").grid(row = 0, column = 0)
+        
 
 
 Example = MainGUI()
