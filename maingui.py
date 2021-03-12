@@ -48,15 +48,17 @@ class MainWindow(QMainWindow):
 
 
     def makeWebEngineView(self, fig):
-        self.webBox = QGroupBox(self)
+        self.webBox = QWidget(self)
+        self.webBox.setLayout(QHBoxLayout())
         self.html = '<html><body>'
         self.html += plotly.offline.plot(fig, output_type='div', include_plotlyjs='cdn')
         self.html += '</body></html>'
 
         self.plot_widget = QWebEngineView()
         self.plot_widget.setHtml(self.html)
-
-        #self.setCentralWidget(self.plot_widget)
+        self.webBox.layout().addWidget(self.plot_widget) 
+        
+        self.layout().addWidget(self.webBox)
 
     def makeListView(self):
         self.listBox = QWidget()
