@@ -1,6 +1,12 @@
-import tkinter as tk
-from tkinter import Canvas, ttk
-from tkinter.constants import RIDGE
+from PyQt5.QtWidgets import QApplication, QButtonGroup, QGridLayout, QGroupBox, QHBoxLayout, QLabel, QMainWindow, QPushButton, QVBoxLayout, QWidget
+from PyQt5 import QtWidgets
+from PyQt5.QtWebEngineWidgets import QWebEngineView
+import sys
+import plotly
+import plotly.express as px
+import numpy as np
+import pandas as pd
+
 from listclass import ObjectLists
 from vector3Dclass import Vector3D
 from pointclass import Point
@@ -14,60 +20,85 @@ x = Vector3D(3, 4, 5)
 y = Plane.normalForm(Vector3D(1, 1, 1), Vector3D(2, 2, 2))
 z = Plane.parameterForm(Vector3D(3, 4, 5), Vector3D(2, 2, 2), Vector3D(2, 2, 2))
 
-class MainGUI(tk.Frame):
-    width = 1200
-    height = 700
-    size = str(width) + "x" + str(height)
+class MainWindow(QMainWindow):
 
     def __init__(self):
-        self.root = tk.Tk()
-        self.root.title("Vektorplotter")
-        self.root.geometry(self.size)
-        #self.root.resizable(0, 0)
 
-        self.makeMainframe()
-        self.makeListFrame()
-        self.makeMenuFrame()
-        self.makeCanvasFrame()
-        self.root.mainloop()
+        super(MainWindow, self).__init__()
+        self.title = "Vektorplotter"
+        self.setWindowTitle(self.title)
+        self.x = 200
+        self.y = 100
+        self.width = 1000
+        self.height = 700
+        self.setGeometry(self.x, self.y, self.width, self.height)
+        self.setLayout(QGridLayout())
+        self.main()
 
-    def makeMainframe(self):
-        self.mainframe = tk.Frame(self.root, height = self.height, width = self.width)
-        self.mainframe.grid(column = 0, row = 0, sticky = "NESW")
-        self.root.columnconfigure(0)
-        self.root.rowconfigure(0)
+    def main(self):
+        ###Testing Purposes
+        d = {'x': [0, 1], 'y': [0, 1], 'z': [0, 2]}
+        df = pd.DataFrame(data=d)
+        lin = px.line_3d(df, x="x", y="y", z="z")
+        lin.add_surface(z=np.array([[1,1,1],[1,1,1],[1,1,1]]))
+        ###Testing Purposes over
+        self.makeWebEngineView(lin)
+        self.makeMenuView()
+        self.makeListView()
 
 
-    def makeListFrame(self):
-        #self.listScrollbar = tk.Scrollbar(self.mainframe)
-        #self.listScrollbar.grid(column = 1, row = 1, rowspan = 2) 
-        self.listFrame = tk.Frame(self.mainframe, borderwidth = 1, height=self.mainframe.winfo_height())
-        self.listFrame.grid(column = 0, row = 1, sticky = "NES")
+    def makeWebEngineView(self, fig):
+        self.webBox = QGroupBox(self)
+        self.html = '<html><body>'
+        self.html += plotly.offline.plot(fig, output_type='div', include_plotlyjs='cdn')
+        self.html += '</body></html>'
+
+        self.plot_widget = QWebEngineView()
+        self.plot_widget.setHtml(self.html)
+
+        #self.setCentralWidget(self.plot_widget)
+
+    def makeListView(self):
+        self.listBox = QWidget()
+        self.listBox.setLayout(QGridLayout())
+        self.listLabel = QLabel(self.listBox)
+        self.listLabel.setText("List:")
+        self.listBox.layout().addWidget(self.listLabel, 0, 0)
         for element, index in zip(ObjectLists.getObjDict(), range(ObjectLists.getObjDictLen())):
-            self.objButton = tk.Button(self.listFrame, text = str(element) + str(ObjectLists.getObjDict()[element]), width = 50, command = self.funktion) # funktion placeholder for future function
-            self.objButton.grid(ipady = 10, column = 0, row = index, columnspan = 2)
+            self.objButton = QPushButton(self.listBox)
+            self.objButton.setText(str(element) + str(ObjectLists.getObjDict()[element]))
+            self.objButton.adjustSize()
+            self.objButton.clicked.connect(lambda: self.clicked()) # clicked is Placeholder, lambda for future args
+            self.objButton.move(0, 25 + index * 25)
+            self.listBox.layout().addWidget(self.objButton, index + 1, 0)
+            self.listBox.update()
 
-        self.addVecButton = tk.Button(self.listFrame, text = "Add new Object +", width = 25, command = self.funktion) # funktion placeholder for future function
-        self.addVecButton.grid(ipady = 10, column = 0, row = ObjectLists.getObjDictLen())
-        self.addCalcButton = tk.Button(self.listFrame, text = "Add new Calculation +", width = 25, command = self.funktion) # funktion placeholder for future function
-        self.addCalcButton.grid(ipady = 10, column = 1, row = ObjectLists.getObjDictLen())
+        self.layout().addWidget(self.listBox)
 
-    def funktion(self):
-        pass
+    def makeMenuView(self):
+        self.menuBox = QWidget()
+        self.menuBox.setLayout(QHBoxLayout())
+        self.homeButton = QPushButton()
+        self.homeButton.setText("Home")
+        self.homeButton.adjustSize()
+        self.homeButton.clicked.connect(lambda: self.home()) # home is Placeholder, lambda for future args
+        self.homeButton.move(0, 0)
+        self.menuBox.layout().addWidget(self.homeButton, 0)
 
-    def makeMenuFrame(self):
-        self.menuFrame = tk.Frame(self.mainframe, borderwidth = 1)
-        self.menuFrame.grid(columnspan = 2, column = 0, row = 0, sticky = "NWE")
-
-        self.spurButton = tk.Button(self.menuFrame, text = "Spurpunkte", width = 10, command = self.funktion) # funktion placeholder for future function
-        self.spurButton.grid(ipady = 10, column = 0, row = 0)
+        self.layout().addWidget(self.menuBox)
 
 
-    def makeCanvasFrame(self):
-        self.canvasFrame = tk.Frame(self.mainframe, borderwidth = 1)
-        self.canvasFrame.grid(column = 2, row = 1, sticky = "NSW")
-        self.canvasFrame.columnconfigure(1, weight = 1)
-        self.canvasFrame.rowconfigure(1, weight = 1)
     
+    def clicked(self):
+        pass #Placeholder
 
-Example = MainGUI()
+    def home(self):
+        pass #Placeholder
+        
+
+
+if __name__ == '__main__':
+    app = QApplication([])
+    window = MainWindow()
+    window.show()
+    app.exec_()
