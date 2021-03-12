@@ -9,17 +9,6 @@ from planeclass import Plane
 from nameAssignclass import NameAssign
 from colorAssignclass import ColorAssign
 
-import matplotlib
-from matplotlib.backends.backend_tkagg import (
-    FigureCanvasTkAgg, NavigationToolbar2Tk)
-# Implement the default Matplotlib key bindings.
-from matplotlib.backend_bases import key_press_handler
-from matplotlib.figure import Figure
-matplotlib.use("TkAgg")
-
-# Needed for testing of embedded matplotlib
-import numpy as np 
-
 
 x = Vector3D(3, 4, 5)
 y = Plane.normalForm(Vector3D(1, 1, 1), Vector3D(2, 2, 2))
@@ -39,7 +28,7 @@ class MainGUI(tk.Frame):
         self.makeMainframe()
         self.makeListFrame()
         self.makeMenuFrame()
-        self.embedMatplotlib()
+        self.makeCanvasFrame()
         self.root.mainloop()
 
     def makeMainframe(self):
@@ -50,6 +39,8 @@ class MainGUI(tk.Frame):
 
 
     def makeListFrame(self):
+        #self.listScrollbar = tk.Scrollbar(self.mainframe)
+        #self.listScrollbar.grid(column = 1, row = 1, rowspan = 2) 
         self.listFrame = tk.Frame(self.mainframe, borderwidth = 1, height=self.mainframe.winfo_height())
         self.listFrame.grid(column = 0, row = 1, sticky = "NES")
         for element, index in zip(ObjectLists.getObjDict(), range(ObjectLists.getObjDictLen())):
@@ -72,33 +63,11 @@ class MainGUI(tk.Frame):
         self.spurButton.grid(ipady = 10, column = 0, row = 0)
 
 
-    def embedMatplotlib(self):
+    def makeCanvasFrame(self):
         self.canvasFrame = tk.Frame(self.mainframe, borderwidth = 1)
-        self.canvasFrame.grid(column = 1, row = 1, sticky = "NSW")
+        self.canvasFrame.grid(column = 2, row = 1, sticky = "NSW")
         self.canvasFrame.columnconfigure(1, weight = 1)
         self.canvasFrame.rowconfigure(1, weight = 1)
-        ### Testing embedded matplotlib
-        fig = Figure(figsize=(5, 4), dpi=100)
-        ax = fig.add_subplot(111, projection="3d")
-        t = np.arange(0, 3, 0.01)
-        ax.plot(t, 2 * np.sin(2 * np.pi * t))
-        ax.mouse_init()
-        ### Testing embedded matplotlib over
-        self.canvas = FigureCanvasTkAgg(fig, master=self.canvasFrame)
-        self.canvas.draw()
-        self.canvas.get_tk_widget().grid(column = 0, row = 0)
-        self.toolbar = NavigationToolbar2Tk(self.canvas, self.root, pack_toolbar=False)
-        self.toolbar.update()
-        def onclick(event):
-            print('%s click: button=%d, x=%d, y=%d, xdata=%f, ydata=%f' %
-                ('double' if event.dblclick else 'single', event.button,
-            event.x, event.y, event.xdata, event.ydata))
-        self.canvas.mpl_connect('button_press_event', onclick)
-        
-
     
-
-        
-
 
 Example = MainGUI()
