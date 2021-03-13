@@ -7,10 +7,11 @@ class Point:
     __idTag = "poi"
     __idCount = 0
 
-    def __init__(self, x=0, y=0, z=0, name=None, color=None):
+    def __init__(self, x=0, y=0, z=0, name=None, color=None, show=True, append=True):
         self.__x = float(x)
         self.__y = float(y)
         self.__z = float(z)
+        self.show = show
         Point.__idCount += 1
         self.__id = str(self.__idTag+str(self.__idCount))
         if name is None:
@@ -21,9 +22,9 @@ class Point:
             self.__color = ColorAssign.getNewColor()
         else:
             self.__color = color
-
-        ObjectLists.appendObjDict({str(self.__id): self})
-        ObjectLists.appendPoiList(self)
+        if append:
+            ObjectLists.appendObjDict({str(self.__id): self})
+            ObjectLists.appendPoiList(self)
 
     def __del__(self):
         ColorAssign.removeColor(self.__color)

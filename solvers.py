@@ -31,7 +31,7 @@ class Solvers:
             ValVar = xValVar+yValVar+zValVar
             ValNoVar = scalarParam - xValNoVar - yValNoVar - zValNoVar
             Var = ValNoVar/ValVar
-            SchnittPoint = Point(posVec.getX()+Var*dirVec.getX(),posVec.getY()+Var*dirVec.getY(),posVec.getZ()+Var*dirVec.getZ())
+            SchnittPoint = Point(posVec.getX()+Var*dirVec.getX(),posVec.getY()+Var*dirVec.getY(),posVec.getZ()+Var*dirVec.getZ(),append=False)
             return SchnittPoint
         elif plane.getType() == "coordinate":
             normVec = plane.getNormalVector()
@@ -47,7 +47,7 @@ class Solvers:
             ValVar = xValVar+yValVar+zValVar
             ValNoVar = scalarParam - xValNoVar - yValNoVar - zValNoVar
             Var = ValNoVar/ValVar
-            SchnittPoint = Point(posVec.getX()+Var*dirVec.getX(),posVec.getY()+Var*dirVec.getY(),posVec.getZ()+Var*dirVec.getZ())
+            SchnittPoint = Point(posVec.getX()+Var*dirVec.getX(),posVec.getY()+Var*dirVec.getY(),posVec.getZ()+Var*dirVec.getZ(),append=False)
             return SchnittPoint
         elif plane.getType() == "parameter":
             normVec = plane.getDirectionVectorOne().vectorProduct(plane.getDirectionVectorTwo())
@@ -64,7 +64,7 @@ class Solvers:
             ValVar = xValVar+yValVar+zValVar
             ValNoVar = scalarParam - xValNoVar - yValNoVar - zValNoVar
             Var = ValNoVar/ValVar
-            SchnittPoint = Point(posVec.getX()+Var*dirVec.getX(),posVec.getY()+Var*dirVec.getY(),posVec.getZ()+Var*dirVec.getZ())
+            SchnittPoint = Point(posVec.getX()+Var*dirVec.getX(),posVec.getY()+Var*dirVec.getY(),posVec.getZ()+Var*dirVec.getZ(),append=False)
             return SchnittPoint
     @classmethod
     def solveForSchnittstelle(self,

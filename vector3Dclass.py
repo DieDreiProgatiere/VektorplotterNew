@@ -13,7 +13,9 @@ class Vector3D:
                  y=0.0,
                  z=0.0,
                  name=None,
-                 color=None
+                 color=None,
+                 show=True,
+                 append=True
                  ):
         """The init function for the Vector3D class.
         Takes x, y and z values as int or float.
@@ -21,6 +23,7 @@ class Vector3D:
         self.__x = float(x)
         self.__y = float(y)
         self.__z = float(z)
+        self.show = show
         if name is None:
             self.__name = NameAssign.getNewName()
         else:
@@ -31,8 +34,9 @@ class Vector3D:
             self.__color = color
         Vector3D.__idCount += 1
         self.__id = str(self.__idTag+str(self.__idCount))
-        ObjectLists.appendObjDict({str(self.__id) : self})
-        ObjectLists.appendVecList(self)
+        if append:
+            ObjectLists.appendObjDict({str(self.__id) : self})
+            ObjectLists.appendVecList(self)
 
     def __del__(self):
         ColorAssign.removeColor(self.__color)

@@ -7,6 +7,7 @@ from nameAssignclass import NameAssign
 from colorAssignclass import ColorAssign
 import numpy as np
 
+
 class Plane:
     __idTag = "pla"
     __idCount = 0
@@ -18,11 +19,13 @@ class Plane:
                       directionVectorOne: Vector3D,
                       directionVectorTwo: Vector3D,
                       name=None,
-                      color=None):
+                      color=None,
+                      show=True,
+                      append=True):
         """The classmethod for initializing a Plane in parameter Form.
            Takes positionVector and directionVectorOne and directionVectorTwo as Vector3D, parameter as int or float,
            name as string and color as tuple of format: (Red, Green, Blue)(Valuerange = 0 to 256)."""
-        plane = cls(positionVector, directionVectorOne, directionVectorTwo, None, None, name, color)
+        plane = cls(positionVector, directionVectorOne, directionVectorTwo, None, None, name, color, show,append)
         cls.__typeOfPlane = "parameter"
         return plane
 
@@ -31,11 +34,13 @@ class Plane:
                    positionVector: Vector3D,
                    normalVector: Vector3D,
                    name=None,
-                   color=None):
+                   color=None,
+                   show=True,
+                   append=True):
         """The classmethod for intializing a Plane in normal Form.
            Takes positionVector and normalVector as Vector3D, name as string and color as tuple of format:
            (Red, Green, Blue)(Valuerange = 0 to 256)."""
-        plane = cls(positionVector, None, None, normalVector, None, name, color)
+        plane = cls(positionVector, None, None, normalVector, None, name, color, show,append)
         cls.__typeOfPlane = "normal"
         return plane
 
@@ -44,12 +49,14 @@ class Plane:
                        normalVector :Vector3D,
                        scalarParameter :float,
                        name=None,
-                       color=None):
+                       color=None,
+                       show=True,
+                       append=True):
         """The classmethod for initializing a Plane in coordinate Form.
            Takes a, b, c, d as float, name as string and color as tuple of format:
            (Red, Green, Blue)(Valuerange = 0 to 256).
            For a equation of the form: ax + by + cz = d."""
-        plane = cls(None, None, None, normalVector, scalarParameter, name, color)
+        plane = cls(None, None, None, normalVector, scalarParameter, name, color, show,append)
         cls.__typeOfPlane = "coordinate"
         return plane
 
@@ -60,7 +67,9 @@ class Plane:
                  normalVector: Vector3D,
                  scalarParameter: float,
                  name=None,
-                 color=None):
+                 color=None,
+                 show=True,
+                 append=True):
         """The init method of the plane class.
            Takes positionVector and directionVectorOne and directionVectorTwo as Vector3D, parameter as int or float,
            name as string and color as tuple of format: (Red, Green, Blue)(Valuerange = 0 to 256)."""
@@ -68,6 +77,8 @@ class Plane:
         self.__directionVectorOne = directionVectorOne
         self.__directionVectorTwo = directionVectorTwo
         self.__normalVector = normalVector
+        self.show = show
+        self.append = append
         # Following code checks if a normalVector was passed. If not: generates normalVector from directionVectors.
 
         try:
@@ -85,9 +96,9 @@ class Plane:
             self.__color = color
         Plane.__idCount += 1
         self.__id = str(self.__idTag) + str(self.__idCount)
-
-        ObjectLists.appendObjDict({str(self.__id): self})
-        ObjectLists.appendPlaList(self)
+        if append:
+            ObjectLists.appendObjDict({str(self.__id): self})
+            ObjectLists.appendPlaList(self)
 
     def __del__(self):
         ColorAssign.removeColor(self.__color)
@@ -170,7 +181,8 @@ class Plane:
         """The set method for the color. Takes color as tuple of format: (Red, Green, Blue). Valuerange = 0 to 256"""
         self.__color = color
     
-    
+    def getType(self):
+        return self.__typeOfPlane
 
     def convertToHessianNormalForm(self):
         """Converts the given Instance to Hessian Normal Form.

@@ -15,13 +15,15 @@ class Line:
                  positionVector: Vector3D,
                  directionVector: Vector3D,
                  name=None,
-                 color=None):
+                 color=None,
+                 show=True):
         """The init method of the line class.
            Takes positionVector and directionVector as Vector3D, parameter as int or float, name as string
            and color as tuple of format: (Red, Green, Blue)(Valuerange = 0 to 256).
            Pass dtype None for color  or name for it to be automatically assigned."""
         self.__positionVector = positionVector
         self.__directionVector = directionVector
+        self.show = show
         if name is None:
             self.__name = NameAssign.getNewName()
         else:

@@ -14,36 +14,58 @@ from pointclass import Point
 from solvers import Solvers
 from vector3Dclass import Vector3D
 
+
 def compileFig():
     dictionary = ObjectLists.getObjDict()
     fig = go.Figure()
     for elem in dictionary:
         if elem[0:3] == "vec":
             elem = dictionary[elem]
-            if elem.show == True:
-                fig.add_trace(go.Scatter3d(x=[0,elem.x], y=[0,elem.y], z=[0,elem.z],mode="lines",surfacecolor=elem.getColor()))
+            if elem.show is True:
+                fig.add_trace(go.Scatter3d(x=[0, elem.x], y=[0, elem.y], z=[0, elem.z], mode="lines", surfacecolor="rgb"+str(elem.getColor())))
         elif elem[0:3] == "lin":
             elem = dictionary[elem]
-            if elem.show==True:
+            if elem.show is True:
                 borders = [
-                    Plane.normalForm(Vector3D(-50,0,0,show=False,color=(0,0,0)),normalVector=Vector3D(1,0,0,show=False,color=(0,0,0)),show=False,color=(0,0,0)),
-                    Plane.normalForm(Vector3D(50,0,0,show=False,color=(0,0,0)),normalVector=Vector3D(1,0,0,show=False,color=(0,0,0)),show=False,color=(0,0,0)),
-                    Plane.normalForm(Vector3D(0,-50,0,show=False,color=(0,0,0)),normalVector=Vector3D(1,0,0,show=False,color=(0,0,0)),show=False,color=(0,0,0)),
-                    Plane.normalForm(Vector3D(0,50,0,show=False,color=(0,0,0)),normalVector=Vector3D(1,0,0,show=False,color=(0,0,0)),show=False,color=(0,0,0)),
-                    Plane.normalForm(Vector3D(0,0,50,show=False,color=(0,0,0)),normalVector=Vector3D(1,0,0,show=False,color=(0,0,0)),show=False,color=(0,0,0)),
-                    Plane.normalForm(Vector3D(0,0,-50,show=False,color=(0,0,0)),normalVector=Vector3D(1,0,0,show=False,color=(0,0,0)),show=False,color=(0,0,0))]
+                    Plane.normalForm(Vector3D(-50,0,0,show=False,append=False,color=(0,0,0)),normalVector=Vector3D(1,0,0,show=False,append=False,color=(0,0,0)),show=False,append=False,color=(0,0,0)),
+                    Plane.normalForm(Vector3D(50,0,0,show=False,append=False,color=(0,0,0)),normalVector=Vector3D(1,0,0,show=False,append=False,color=(0,0,0)),show=False,append=False,color=(0,0,0)),
+                    Plane.normalForm(Vector3D(0,-50,0,show=False,append=False,color=(0,0,0)),normalVector=Vector3D(0,1,0,show=False,append=False,color=(0,0,0)),show=False,append=False,color=(0,0,0)),
+                    Plane.normalForm(Vector3D(0,50,0,show=False,append=False,color=(0,0,0)),normalVector=Vector3D(0,1,0,show=False,append=False,color=(0,0,0)),show=False,append=False,color=(0,0,0)),
+                    Plane.normalForm(Vector3D(0,0,50,show=False,append=False,color=(0,0,0)),normalVector=Vector3D(0,0,1,show=False,append=False,color=(0,0,0)),show=False,append=False,color=(0,0,0)),
+                    Plane.normalForm(Vector3D(0,0,-50,show=False,append=False,color=(0,0,0)),normalVector=Vector3D(0,0,1,show=False,append=False,color=(0,0,0)),show=False,append=False,color=(0,0,0))]
                 schnittpunkte=[]
                 for plane in borders:
-                    schnittpunkt = Solvers.schnittpunkt(plane,elem)
-                    if schnittpunkt != None:
+                    schnittpunkt = Solvers.solveForPointPlane(elem,plane)
+                    if schnittpunkt is not None:
                         schnittpunkte.append(schnittpunkt)
-                fig.add_trace(go.Scatter3D(x=[x1,x2], y=[y1,y2], z=[z1,z2],mode="lines"))
+                if len(schnittpunkte) > 2:
+                    x1 = schnittpunkte[0].x
+                    x2 = schnittpunkte[1].x
+                    y1 = schnittpunkte[0].y
+                    y2 = schnittpunkte[1].y
+                    z1 = schnittpunkte[0].z
+                    z2 = schnittpunkte[1].z
+                else:
+                    x1 = schnittpunkte[0].x
+                    x2 = schnittpunkte[1].x
+                    y1 = schnittpunkte[0].y
+                    y2 = schnittpunkte[1].y
+                    z1 = schnittpunkte[0].z
+                    z2 = schnittpunkte[1].z
+                fig.add_trace(go.Scatter3d(x=[x1, x2], y=[y1, y2], z=[z1, z2], mode="lines", surfacecolor="rgb"+str(elem.getColor())))
         elif elem[0:3] == "pla":
             elem = dictionary[elem]
-        elif elen[0:3] == "poi":
+            if elem.show:
+                fig.add_trace(go.Mesh3d())
+        elif elem[0:3] == "poi":
             elem = dictionary[elem]
-    fig.show()
+            if elem.show:
+                fig.add_trace(go.Scatter3d(x=[elem.x],y=[elem.y],z=[elem.z],surfacecolor="rgb"+str(elem.getColor())))
+    fig.write_html(file="htmlplot.html")
 
-vec = Vector3D(1,2,3)
-vec2 = Vector3D(2,3,4)
+
+vec = Vector3D(1, 2, 3)
+vec2 = Vector3D(2, 3, 4)
+point = Point(3,3,3)
+line = Line(vec,Vector3D(10,1,1))
 compileFig()
