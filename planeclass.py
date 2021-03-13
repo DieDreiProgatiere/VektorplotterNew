@@ -18,11 +18,12 @@ class Plane:
                       directionVectorTwo: Vector3D,
                       name=None,
                       color=None,
-                      typeOfPlane="parameter"):
+                      typeOfPlane="parameter",
+                      show=True):
         """The classmethod for initializing a Plane in parameter Form.
            Takes positionVector and directionVectorOne and directionVectorTwo as Vector3D, parameter as int or float,
            name as string and color as tuple of format: (Red, Green, Blue)(Valuerange = 0 to 256)."""
-        plane = cls(positionVector, directionVectorOne, directionVectorTwo, None, None, name, color, typeOfPlane)
+        plane = cls(positionVector, directionVectorOne, directionVectorTwo, None, None, name, color, typeOfPlane,show)
         return plane
 
     @classmethod
@@ -31,11 +32,12 @@ class Plane:
                    normalVector: Vector3D,
                    name=None,
                    color=None,
-                   typeOfPlane="normal"):
+                   typeOfPlane="normal",
+                   show=True):
         """The classmethod for intializing a Plane in normal Form.
            Takes positionVector and normalVector as Vector3D, name as string and color as tuple of format:
            (Red, Green, Blue)(Valuerange = 0 to 256)."""
-        plane = cls(positionVector, None, None, normalVector, None, name, color, typeOfPlane)
+        plane = cls(positionVector, None, None, normalVector, None, name, color, typeOfPlane,show)
         return plane
 
     @classmethod
@@ -44,12 +46,13 @@ class Plane:
                        scalarParameter: float,
                        name=None,
                        color=None, 
-                       typeOfPlane="coordinate"):
+                       typeOfPlane="coordinate",
+                       show=True):
         """The classmethod for initializing a Plane in coordinate Form.
            Takes a, b, c, d as float, name as string and color as tuple of format:
            (Red, Green, Blue)(Valuerange = 0 to 256).
            For a equation of the form: ax + by + cz = d."""
-        plane = cls(None, None, None, normalVector, scalarParameter, name, color, typeOfPlane)
+        plane = cls(None, None, None, normalVector, scalarParameter, name, color, typeOfPlane, show)
         return plane
 
     def __init__(self,
@@ -60,7 +63,8 @@ class Plane:
                  scalarParameter: float,
                  name=None,
                  color=None,
-                 typeOfPlane=""):
+                 typeOfPlane="",
+                 show=True):
         """The init method of the plane class.
            Takes positionVector and directionVectorOne and directionVectorTwo as Vector3D, parameter as int or float,
            name as string and color as tuple of format: (Red, Green, Blue)(Valuerange = 0 to 256)."""
@@ -69,6 +73,7 @@ class Plane:
         self.__directionVectorTwo = directionVectorTwo
         self.__normalVector = normalVector
         self.__typeOfPlane = typeOfPlane
+        self.show = show
 
         # Following code checks if a normalVector was passed. If not: generates normalVector from directionVectors.
 
