@@ -14,7 +14,58 @@ class Solvers:
     def __init__(self):
         """Placeholder; not necessary."""
         pass
-
+    @classmethod
+    def solveForPointPlane(self, line:Line, plane:Plane):
+        if plane.getType() == "normal":
+            normVec = plane.getNormalVector()
+            posVecP = plane.getPositionVector()
+            scalarParam = posVecP.scalarProduct(normVec)
+            posVec = line.getPositionVector()
+            dirVec = line.getDirectionVector()
+            xValNoVar = normVec.getX()*posVec.getX()
+            yValNoVar = normVec.getY()*posVec.getY()
+            zValNoVar = normVec.getZ()*posVec.getZ()
+            xValVar = normVec.getX()*dirVec.getX()
+            yValVar = normVec.getY()*dirVec.getY()
+            zValVar = normVec.getZ()*dirVec.getZ()
+            ValVar = xValVar+yValVar+zValVar
+            ValNoVar = scalarParam - xValNoVar - yValNoVar - zValNoVar
+            Var = ValNoVar/ValVar
+            SchnittPoint = Point(posVec.getX()+Var*dirVec.getX(),posVec.getY()+Var*dirVec.getY(),posVec.getZ()+Var*dirVec.getZ())
+            return SchnittPoint
+        elif plane.getType() == "coordinate":
+            normVec = plane.getNormalVector()
+            scalarParam = plane.getScalarParameter()
+            posVec = line.getPositionVector()
+            dirVec = line.getDirectionVector()
+            xValNoVar = normVec.getX()*posVec.getX()
+            yValNoVar = normVec.getY()*posVec.getY()
+            zValNoVar = normVec.getZ()*posVec.getZ()
+            xValVar = normVec.getX()*dirVec.getX()
+            yValVar = normVec.getY()*dirVec.getY()
+            zValVar = normVec.getZ()*dirVec.getZ()
+            ValVar = xValVar+yValVar+zValVar
+            ValNoVar = scalarParam - xValNoVar - yValNoVar - zValNoVar
+            Var = ValNoVar/ValVar
+            SchnittPoint = Point(posVec.getX()+Var*dirVec.getX(),posVec.getY()+Var*dirVec.getY(),posVec.getZ()+Var*dirVec.getZ())
+            return SchnittPoint
+        elif plane.getType() == "parameter":
+            normVec = plane.getDirectionVectorOne().vectorProduct(plane.getDirectionVectorTwo())
+            posVecP = plane.getPositionVector()
+            scalarParam = posVecP.scalarProduct(normVec)
+            posVec = line.getPositionVector()
+            dirVec = line.getDirectionVector()
+            xValNoVar = normVec.getX()*posVec.getX()
+            yValNoVar = normVec.getY()*posVec.getY()
+            zValNoVar = normVec.getZ()*posVec.getZ()
+            xValVar = normVec.getX()*dirVec.getX()
+            yValVar = normVec.getY()*dirVec.getY()
+            zValVar = normVec.getZ()*dirVec.getZ()
+            ValVar = xValVar+yValVar+zValVar
+            ValNoVar = scalarParam - xValNoVar - yValNoVar - zValNoVar
+            Var = ValNoVar/ValVar
+            SchnittPoint = Point(posVec.getX()+Var*dirVec.getX(),posVec.getY()+Var*dirVec.getY(),posVec.getZ()+Var*dirVec.getZ())
+            return SchnittPoint
     @classmethod
     def solveForSchnittstelle(self,
                               line1: Line,
@@ -97,12 +148,20 @@ class Solvers:
         """Returns the Schnittpunkt between two Lines.
            Uses Solvers.solveForSchnittstelle.
            Returns a Point instance."""
+
+        posVec1 = line1.getPositionVector()
+        posVec2 = line2.getPositionVector()
+        dirVec1 = line1.getDirectionVector()
+        dirVec2 = line2.getDirectionVector()
         schnittstelle = self.solveForSchnittstelle(line1, line2)
-        if schnittstelle is not None:
-            schnittpunkt = line1.pointOnLine(schnittstelle[0])
-        else:
-            schnittpunkt = None
-            # There is no schnittpunkt...
+        
+       
+        ValOne = posVec1.add(dirVec1.scalarMultiplication(schnittstelle[0]))
+        ValTwo = posVec2.add(dirVec2.scalarMultiplication(schnittstelle[0]))
+        if ValOne.getX() == ValTwo.getX() and ValOne.getY() == ValTwo.getY() and ValOne.getZ() == ValTwo.getZ():
+            schnittpunkt = ValOne
+        else: 
+            schnittpunkt = None   
         return schnittpunkt
 
     @classmethod
@@ -165,7 +224,36 @@ class Solvers:
         return self.checkLinearAbhaengig(
             line.dirVec,
             Vector3D(point.x+line.posVec.x, point.y+line.posVec.y, point.z+line.posVec.z))
-
+    @classmethod
+    def checkPointInPlane(self, plane:Plane, point: Point):
+        vector = Vector3D(point.getX(),point.getY(),point.getZ())
+        typeOfPlane = plane.getType()
+        pointInPlane = False
+        if typeOfPlane == "normal":
+           result = vector.subtract(plane.getPositionVector())
+           answer = result.scalarProduct(plane.getNormalVector())
+           if answer == 0:
+               pointInPlane = True
+           else:
+               pointInPlane = False
+        elif typeOfPlane == "parameter":
+            dirVec1 = plane.getDirectionVectorOne()
+            dirVec2 = plane.getDirectionVectorTwo()
+            result = vector.subtract(plane.getPositionVector())
+            arrayOne = np.array([[dirVec1.getX(),dirVec1.getY()], [dirVec2.getX(),dirVec2.getY()]])
+            arrayTwo = np.array([result.getX(),result.getY()])
+            solution = np.linalg.solve(arrayOne,arrayTwo)
+            if solution[0]*dirVec1.getZ() + solution[1]*dirVec2.getZ() == result.getZ():
+                pointInPlane = True
+            else: 
+                pointInPlane = False
+        elif typeOfPlane == "coordinate":
+            normVec = plane.getNormalVector()
+            if point.getX()*normVec.getX() + point.getY()*normVec.getY() + point.getZ()*normVec.getZ() == plane.getScalarParameter():
+                pointInPlane = True
+            else:
+                pointInPlane = False
+        return pointInPlane
     @classmethod
     def checkColinear(self,
                       obj1,
@@ -253,3 +341,71 @@ class Solvers:
         else:
             print("We cannot calculate this Angle.")
         return winkel
+
+    @classmethod
+    def distancePointPoint(self, point:Point, point1:Point):
+        Vec = Vector3D(point.getX()-point1.getX(),point.getY()-point1.getY(),point.getZ()-point1.getZ())
+        distance = abs(Vec.length())
+        return distance
+
+    @classmethod
+    def distanceLineLine(self, line1:Line,line2:Line):
+        if Solvers.checkLinearAbhaengig(line1.getDirectionVector(),line2.getDirectionVector()) == True:
+            if Solvers.checkPointInLine(line1,line2.getPositionVector()) ==True:
+                print("Identisch")
+            else:
+                distance = Solvers.distancePointLine(line2.getPositionVector(),line1)
+        elif Solvers.schnittpunkt(line1,line2) is not None:
+            distance = 0
+        else:
+            normVec = line1.getDirectionVector().vectorProduct(line2.getDirectionVector())
+            scalarParam = normVec.scalarProduct(line1.getPositionVector())
+            helpPlane = Plane.coordinateForm(normVec,scalarParam)
+            distance = Solvers.distancePlanePoint(line2.getPositionVector(),helpPlane)
+        return distance
+
+
+    @classmethod
+    def distancePlanePoint(self, point:Point, plane:Plane):
+        if Solvers.checkPointInPlane(plane,point) == False:
+            if plane.getType() == "coordinate":
+                hess = plane.convertToHessianNormalForm()
+                normVec = hess.getNormalVector()
+                scalarParam = hess.getScalarParameter()
+                distance = normVec.getX()*point.getX()+normVec.getY()*point.getY()+normVec.getZ()*point.getZ()-scalarParam
+            else:
+                hess = plane.convertToHessianNormalForm()
+                pointVec = Vector3D(point.getX(),point.getY(),point.getZ())
+                subtract = pointVec.subtract(hess.getPositionVector())
+                distance = subtract.scalarProduct(hess.getNormalVector())
+                distance = abs(distance)
+        else:
+            distance = 0
+        return distance 
+    @classmethod
+    def distanceLinePlane(self, line:Line, plane:Plane):
+        if plane.getType() == "normal" or plane.getType() == "coordinate":
+            normVec = plane.getNormalVector()
+            if normVec.scalarProduct(line.getDirectionVector()) == 0:
+                distance = Solvers.distancePlanePoint(line.getPositionVector(), plane)
+            else: 
+                distance = 0
+            return distance
+        else: 
+            normVec = plane.getDirectionVectorOne().vectorProduct(plane.getDirectionVectorTwo())
+            if normVec.scalarProduct(line.getDirectionVector()) == 0:
+                distance = Solvers.distancePlanePoint(line.getPositionVector(), plane)
+            else:     
+                distance = 0
+            return distance
+    @classmethod
+    def distancePointLine(self, point:Point, line:Line):
+        helpPlane = Plane.normalForm(Vector3D(point.getX(),point.getY(),point.getZ()),line.getDirectionVector())
+        pointSchnitt = Solvers.solveForPointPlane(line,helpPlane)
+        schnittPoint = Point(pointSchnitt.getX(),pointSchnitt.getY(),pointSchnitt.getZ())
+        distance = Solvers.distancePointPoint(schnittPoint,point)
+        return distance
+
+
+
+
