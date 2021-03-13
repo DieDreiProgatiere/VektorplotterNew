@@ -37,6 +37,7 @@ class MainWindow(QMainWindow):
         self.setGeometry(self.x, self.y, self.width, self.height)
         self.mainWidget = QWidget()
         self.mainLayout = QGridLayout()
+        self.mainLayout.setColumnStretch(1, 2)
         self.mainWidget.setLayout(self.mainLayout)
         self.setCentralWidget(self.mainWidget)
         self.main()
@@ -69,7 +70,7 @@ class MainWindow(QMainWindow):
         self.webBoxLayout.addWidget(self.plot_widget)
 
         self.webBox.setLayout(self.webBoxLayout)
-        self.mainLayout.addWidget(self.webBox, 1, 1)
+        self.mainLayout.addWidget(self.webBox, 1, 1, 2, 1)
 
     def makeListView(self):
         self.listBox = QWidget()
@@ -153,6 +154,7 @@ class MainWindow(QMainWindow):
         pass #Placeholder
 
     def newObjectButtonClicked(self):
+        # this method is called, if the newObjectButton is clicked
         self.showingNewObjectInputLine = False
         if not(self.showingNewObjectInputLine):
             self.showingNewObjectInputLine = True
@@ -166,9 +168,21 @@ class MainWindow(QMainWindow):
             pass
 
     def newCalcButtonClicked(self):
-        pass
+        # this method is called, if the newCalcButton is clicked
+        self.showingNewCalcInputLine = False
+        if not(self.showingNewCalcInputLine):
+            self.showingNewCalcInputLine = True
+
+            self.newCalcInputLine = QLineEdit()
+            self.newCalcInputLine.setFrame(True)
+            self.listBoxLayout.addWidget(self.newCalcInputLine)
+            self.listBoxLayout.update()
+            self.newCalcInputLine.returnPressed.connect(lambda: self.newCalcInput())
+        else:
+            pass
 
     def newObjectInput(self):
+        # this method is called if the return key is pressed in the newObjectButtonClicked method
         self.showingNewObjectInputLine = False
         self.newObjectInputLineText = self.newObjectInputLine.text()
         self.listBoxLayout.removeWidget(self.newObjectInputLine)
@@ -177,6 +191,16 @@ class MainWindow(QMainWindow):
         return self.newObjectInputLineText
         # Has to execute with exec or call another function to add self.newObjectInputLineText (which is the new object) to the ObjDict and ...List
         
+
+    def newCalcInput(self):
+        # this method is called, if the return key is pressed in the newCalcButtonClicked method
+        self.showingNewCalcInputLine = False
+        self.newCalcInputLineText = self.newCalcInputLine.text()
+        self.listBoxLayout.removeWidget(self.newCalcInputLine)
+        self.listBoxLayout.update()
+
+        return self.newCalcInputLineText
+        # Has to be passed to another function, which handles Calculation Input....or handeld in this method 
 
 
 if __name__ == '__main__':
