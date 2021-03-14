@@ -203,11 +203,11 @@ class Plane:
 
     def __str__(self):
         if self.__typeOfPlane == "normal":
-            return str(self.__id)+": (x - "+ str(self.__positionVector)+" + ) * "+str(self.__normalVector)+" = 0"
+            return "(x - "+ str(self.__positionVector)+" + ) * "+str(self.__normalVector)+" = 0"
         elif self.__typeOfPlane == "parameter":
-            return str(self.__id)+": x = "+str(self.__positionVector)+" + r * "+str(self.__directionVectorOne)+" + s * "+str(self.__directionVectorTwo)
+            return "x = "+str(self.__positionVector)+" + r * "+str(self.__directionVectorOne)+" + s * "+str(self.__directionVectorTwo)
         elif self.__typeOfPlane == "coordinate":
-            return str(self.__id)+": "+str(self.__normalVector.getX())+"x + "+str(self.__normalVector.getY())+"y + "+str(self.__normalVector.getZ())+"z = "+str(self.__scalarParameter)
+            return +str(self.__normalVector.getX())+"x + "+str(self.__normalVector.getY())+"y + "+str(self.__normalVector.getZ())+"z = "+str(self.__scalarParameter)
         else:
             return "No valid plane!"
 
