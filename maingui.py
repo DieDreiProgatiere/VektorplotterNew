@@ -20,13 +20,20 @@ from solvers import Solvers
 from objectsToFig import compileFig
 
 
-vec = Vector3D(1, 2, 3)
-x = Vector3D(3, 4, 5,append=True,show=True)
+#vec = Vector3D(1, 2, 3,append=True)
+#x = Vector3D(3, 4, 5,append=True,show=True)
 #y = Plane.normalForm(Vector3D(1, 1, 1), Vector3D(2, 2, 2),append=True,show=True)
-z = Plane.parameterForm(Vector3D(3, 4, 5), Vector3D(2, 5, 2), Vector3D(12, 2, 2),append=True,show=True)
-u = Plane.parameterForm(Vector3D(2, 5, 5), Vector3D(1, 4, 2), Vector3D(2, 6, 7),append=True,show=True)
-plane = Plane.normalForm(vec,Vector3D(-5,-1,-1,"Herbert",(0,0,0),show=False,append=True),show=True,append=True)
+#z = Plane.parameterForm(Vector3D(3, 4, 5), Vector3D(2, 5, 2), Vector3D(12, 2, 2),append=True,show=True)
+#u = Plane.parameterForm(Vector3D(2, 5, 5), Vector3D(1, 4, 2), Vector3D(2, 6, 7),append=True,show=True)
+#plane = Plane.normalForm(vec,Vector3D(-5,-1,-1,"Herbert",(0,0,0),show=False,append=True),show=True,append=True)
 #v = Plane.coordinateForm(Vector3D(3, 2, 1), 2,append=True,show=True)
+
+vec = Vector3D(1, 2, 3,append=True)
+vec2 = Vector3D(2, 3, 4,append=True)
+point = Point(3,3,3,color=(50,50,50),append=True)
+line = Line(vec,Vector3D(10,1,1),append=True)
+plane = Plane.normalForm(vec,Vector3D(-5,-1,-1,"Herbert",(0,0,0),show=False,append=True),show=True,append=True)
+
 
 class MainWindow(QMainWindow):
 
@@ -62,9 +69,11 @@ class MainWindow(QMainWindow):
         self.webBox.setMinimumSize(500, 500)
         self.webBox.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
         self.webBoxLayout.setContentsMargins(0, 0, 0, 0)
-        self.html = '<html><body>'
-        self.html += plotly.offline.plot(fig, output_type='div', include_plotlyjs='cdn')
-        self.html += '</body></html>'
+        #fig.show()
+        #self.html = '<html><body>'
+        #self.html += plotly.offline.plot(fig, output_type='div', include_plotlyjs='cdn')
+        #self.html += '</body></html>'
+        self.html = fig.to_html(include_plotlyjs="cdn", full_html=True, include_mathjax="cdn")
 
         self.plot_widget = QWebEngineView()
         self.plot_widget.setHtml(self.html)

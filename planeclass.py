@@ -11,7 +11,6 @@ import numpy as np
 class Plane:
     __idTag = "pla"
     __idCount = 0
-    __typeOfPlane = None
 
     @classmethod
     def parameterForm(cls,
@@ -20,13 +19,12 @@ class Plane:
                       directionVectorTwo: Vector3D,
                       name=None,
                       color=None,
-                      show=False,
+                      show=True,
                       append=False):
         """The classmethod for initializing a Plane in parameter Form.
            Takes positionVector and directionVectorOne and directionVectorTwo as Vector3D, parameter as int or float,
            name as string and color as tuple of format: (Red, Green, Blue)(Valuerange = 0 to 256)."""
-        plane = cls(positionVector, directionVectorOne, directionVectorTwo, None, None, name, color, show,append)
-        cls.__typeOfPlane = "parameter"
+        plane = cls(positionVector, directionVectorOne, directionVectorTwo, None, None, name, color, show, append, typeOfPlane="parameter")
         return plane
 
     @classmethod
@@ -35,13 +33,12 @@ class Plane:
                    normalVector: Vector3D,
                    name=None,
                    color=None,
-                   show=False,
+                   show=True,
                    append=False):
         """The classmethod for intializing a Plane in normal Form.
            Takes positionVector and normalVector as Vector3D, name as string and color as tuple of format:
            (Red, Green, Blue)(Valuerange = 0 to 256)."""
-        plane = cls(positionVector, None, None, normalVector, None, name, color, show,append)
-        cls.__typeOfPlane = "normal"
+        plane = cls(positionVector, None, None, normalVector, None, name, color, show, append, typeOfPlane="normal")
         return plane
 
     @classmethod
@@ -50,14 +47,13 @@ class Plane:
                        scalarParameter :float,
                        name=None,
                        color=None,
-                       show=False,
+                       show=True,
                        append=False):
         """The classmethod for initializing a Plane in coordinate Form.
            Takes a, b, c, d as float, name as string and color as tuple of format:
            (Red, Green, Blue)(Valuerange = 0 to 256).
            For a equation of the form: ax + by + cz = d."""
-        plane = cls(None, None, None, normalVector, scalarParameter, name, color, show,append)
-        cls.__typeOfPlane = "coordinate"
+        plane = cls(None, None, None, normalVector, scalarParameter, name, color, show, append, typeOfPlane="coordinate")
         return plane
 
     def __init__(self,
@@ -68,8 +64,9 @@ class Plane:
                  scalarParameter: float,
                  name=None,
                  color=None,
-                 show=False,
-                 append=False):
+                 show=True,
+                 append=False,
+                 typeOfPlane=""):
         """The init method of the plane class.
            Takes positionVector and directionVectorOne and directionVectorTwo as Vector3D, parameter as int or float,
            name as string and color as tuple of format: (Red, Green, Blue)(Valuerange = 0 to 256)."""
@@ -79,6 +76,7 @@ class Plane:
         self.__normalVector = normalVector
         self.show = show
         self.append = append
+        self.__typeOfPlane = typeOfPlane
         # Following code checks if a normalVector was passed. If not: generates normalVector from directionVectors.
 
         try:

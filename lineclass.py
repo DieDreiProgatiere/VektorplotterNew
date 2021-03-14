@@ -16,7 +16,7 @@ class Line:
                  directionVector: Vector3D,
                  name=None,
                  color=None,
-                 show=False,
+                 show=True,
                  append=False):
         """The init method of the line class.
            Takes positionVector and directionVector as Vector3D, parameter as int or float, name as string

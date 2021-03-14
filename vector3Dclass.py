@@ -14,7 +14,7 @@ class Vector3D:
                  z=0.0,
                  name=None,
                  color=None,
-                 show=False,
+                 show=True,
                  append=False
                  ):
         """The init function for the Vector3D class.
