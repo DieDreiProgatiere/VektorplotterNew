@@ -15,13 +15,16 @@ class Line:
                  positionVector: Vector3D,
                  directionVector: Vector3D,
                  name=None,
-                 color=None):
+                 color=None,
+                 show=False,
+                 append=False):
         """The init method of the line class.
            Takes positionVector and directionVector as Vector3D, parameter as int or float, name as string
            and color as tuple of format: (Red, Green, Blue)(Valuerange = 0 to 256).
            Pass dtype None for color  or name for it to be automatically assigned."""
         self.__positionVector = positionVector
         self.__directionVector = directionVector
+        self.show = show
         if name is None:
             self.__name = NameAssign.getNewName()
         else:
@@ -32,9 +35,9 @@ class Line:
             self.__color = color
         Line.__idCount += 1
         self.__id = str(self.__idTag) + str(self.__idCount)
-
-        ObjectLists.appendObjDict({str(self.__id): self})
-        ObjectLists.appendLinList(self)
+        if append:
+            ObjectLists.appendObjDict({str(self.__id): self})
+            ObjectLists.appendLinList(self)
 
     def __del__(self):
         ColorAssign.removeColor(self.__color)

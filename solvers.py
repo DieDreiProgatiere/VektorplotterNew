@@ -18,6 +18,8 @@ class Solvers:
     def solveForPointPlane(self, line:Line, plane:Plane):
         if plane.getType() == "normal":
             normVec = plane.getNormalVector()
+            print(plane)
+            print(normVec)
             posVecP = plane.getPositionVector()
             scalarParam = posVecP.scalarProduct(normVec)
             posVec = line.getPositionVector()
