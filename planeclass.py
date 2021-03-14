@@ -7,6 +7,7 @@ from nameAssignclass import NameAssign
 from colorAssignclass import ColorAssign
 import numpy as np
 
+
 class Plane:
     __idTag = "pla"
     __idCount = 0
@@ -170,26 +171,143 @@ class Plane:
         """The set method for the color. Takes color as tuple of format: (Red, Green, Blue). Valuerange = 0 to 256"""
         self.__color = color
     
-    
-
     def convertToHessianNormalForm(self):
         """Converts the given Instance to Hessian Normal Form.
         The Normal Vector is transformed into a Normal Vector of length 1."""
         if self.__typeOfPlane == "parameter":
             posVec = self.__positionVector
             normVec = self.getDirectionVectorOne().vectorProduct(self.getDirectionVectorTwo())
+            normVecParameter = normVec.scalarDivision(normVec.length())
             nameVec = self.__name
-            hess = Plane.normalForm(posVec, normVec, nameVec)
-            hess.setNormalVector(normVec.scalarDivision(normVec.length()))
-            self.__typeOfPlane = "normal"
+            hess = Plane.normalForm(posVec, normVecParameter, nameVec)
         elif self.__typeOfPlane == "coordinate":
-            normVec = self.getNormalVector().scalarDivision(self.__normalVector.length())
-            scalParam = self.getScalarParameter()/self.getNormalVector().length()
-            hess = Plane.coordinateForm(normVec,scalParam)
+            normVecCoordinate = self.getNormalVector().scalarDivision(self.getNormalVector().length())
+            posVec = (self.getScalarParameter()/self.getNormalVector().getX(),0,0)
+            nameVec = self.__name
+            hess = Plane.normalForm(posVec,normVecCoordinate,nameVec)
         elif self.__typeOfPlane == "normal":
-            normVec = self.getNormalVector().scalarDivision(self.getNormalVector().length())
-            hess = Plane.normalForm(self.getPositionVector(),normVec)
-        return hess  
+            normVecNormal = self.getNormalVector().scalarDivision(self.getNormalVector().length())
+            nameVec = self.__name
+            hess = Plane.normalForm(self.getPositionVector(),normVecNormal,nameVec)
+        return hess
+        
+    def convertToCoordinateForm(self):
+        try:
+            normVec = self.getDirectionVectorOne().vectorProduct(self.getDirectionVectorTwo())
+            scalarParameter = normVec.scalarProduct(self.getPositionVector())
+            cordself = self.coordinateForm(normVec,scalarParameter)
+        except:
+            try:
+                scalarParameter = self.getNormalVector().scalarProduct(self.getPositionVector())
+                cordself = self.coordinateForm(self.getNormalVector(),scalarParameter)
+            except:
+                cordself = self.coordinateForm(self.getNormalVector(),self.getScalarParameter())
+        return cordself
+        
+        
+    def convertToParameterForm(self):
+        if self.getType()=="parameter":
+            paramself = self
+        elif self.getType()=="normal":
+            xVal = self.getNormalVector().getX()
+            yVal = self.getNormalVector().getY()
+            zVal = self.getNormalVector().getZ()
+            sVal = self.getNormalVector().scalarProduct(self.getPositionVector())
+            if xVal != 0 and yVal != 0 and zVal != 0:
+                xScal = sVal/xVal
+                xDir1 = -yVal/xVal
+                xDir2 = -zVal/xVal
+                posVec = Vector3D(xScal,0,0)
+                dirVec1 = Vector3D(xDir1,1,0)
+                dirVec2 = Vector3D(xDir2,0,1)
+                paramself = self.parameterForm(posVec,dirVec1,dirVec2)
+            elif xVal != 0 and yVal == 0 and zVal != 0:
+                xScal = sVal/xVal
+                xDir2 = -zVal/xVal
+                posVec = Vector3D(0,xScal,0)
+                dirVec1 = Vector3D(0,1,0)
+                dirVec2 = Vector3D(0,xDir2,1)
+                paramself = self.parameterForm(posVec,dirVec1,dirVec2)
+            elif xVal != 0 and yVal != 0 and zVal == 0:
+                yScal = sVal/yVal
+                yDir2 = -xVal/yVal
+                posVec = Vector3D(0,yScal,0)
+                dirVec1 = Vector3D(0,0,1)
+                dirVec2 = Vector3D(0,yDir2,1)
+                paramself = self.parameterForm(posVec,dirVec1,dirVec2)
+            elif xVal == 0 and yVal != 0 and zVal != 0:
+                yScal = sVal/yVal
+                yDir2 = -zVal/yVal
+                posVec = Vector3D(0,yScal,0)
+                dirVec1 = Vector3D(1,0,0)
+                dirVec2 = Vector3D(0,yDir2,1)
+                paramself = self.parameterForm(posVec,dirVec1,dirVec2)
+            elif xVal == 0 and yVal == 0 and zVal != 0:
+                dirVec1 = Vector3D(0,1,0)
+                dirVec2 = Vector3D(1,0,0)
+                posVec = Vector3D(0,0,sVal/zVal)
+                paramself = self.parameterForm(posVec,dirVec1,dirVec2)
+            elif zVal == 0 and yVal == 0 and xVal != 0:
+                dirVec1 = Vector3D(0,1,0)
+                dirVec2 = Vector3D(0,0,1)
+                posVec = Vector3D(sVal/xVal,0,0)
+                paramself = self.parameterForm(posVec,dirVec1,dirVec2)
+            elif zVal == 0 and xVal == 0 and yVal != 0:
+                dirVec1 = Vector3D(1,0,0)
+                dirVec2 = Vector3D(0,0,1)
+                posVec = Vector3D(sVal/yVal,0,0)
+                paramself = self.parameterForm(posVec,dirVec1,dirVec2)
+        elif self.getType()=="coordinate":
+            xVal = self.getNormalVector().getX()
+            yVal = self.getNormalVector().getY()
+            zVal = self.getNormalVector().getZ()
+            sVal = self.getScalarParameter()
+            if xVal != 0 and yVal != 0 and zVal != 0:
+                xScal = sVal/xVal
+                xDir1 = -yVal/xVal
+                xDir2 = -zVal/xVal
+                posVec = Vector3D(xScal,0,0)
+                dirVec1 = Vector3D(xDir1,1,0)
+                dirVec2 = Vector3D(xDir2,0,1)
+                paramself = self.parameterForm(posVec,dirVec1,dirVec2)
+            elif xVal != 0 and yVal == 0 and zVal != 0:
+                xScal = sVal/xVal
+                xDir2 = -zVal/xVal
+                posVec = Vector3D(0,xScal,0)
+                dirVec1 = Vector3D(0,1,0)
+                dirVec2 = Vector3D(0,xDir2,1)
+                paramself = self.parameterForm(posVec,dirVec1,dirVec2)
+            elif xVal != 0 and yVal != 0 and zVal == 0:
+                yScal = sVal/yVal
+                yDir2 = -xVal/yVal
+                posVec = Vector3D(0,yScal,0)
+                dirVec1 = Vector3D(0,0,1)
+                dirVec2 = Vector3D(0,yDir2,1)
+                paramself = self.parameterForm(posVec,dirVec1,dirVec2)
+            elif xVal == 0 and yVal != 0 and zVal != 0:
+                yScal = sVal/yVal
+                yDir2 = -zVal/yVal
+                posVec = Vector3D(0,yScal,0)
+                dirVec1 = Vector3D(1,0,0)
+                dirVec2 = Vector3D(0,yDir2,1)
+                paramself = self.parameterForm(posVec,dirVec1,dirVec2)
+            elif xVal == 0 and yVal == 0 and zVal != 0:
+                dirVec1 = Vector3D(0,1,0)
+                dirVec2 = Vector3D(1,0,0)
+                posVec = Vector3D(0,0,sVal/zVal)
+                paramself = self.parameterForm(posVec,dirVec1,dirVec2)
+            elif zVal == 0 and yVal == 0 and xVal != 0:
+                dirVec1 = Vector3D(0,1,0)
+                dirVec2 = Vector3D(0,0,1)
+                posVec = Vector3D(sVal/xVal,0,0)
+                paramself = self.parameterForm(posVec,dirVec1,dirVec2)
+            elif zVal == 0 and xVal == 0 and yVal != 0:
+                dirVec1 = Vector3D(1,0,0)
+                dirVec2 = Vector3D(0,0,1)
+                posVec = Vector3D(sVal/yVal,0,0)
+                paramself = self.parameterForm(posVec,dirVec1,dirVec2)
+        return paramself    
+        
 
     def __str__(self):
         if self.__typeOfPlane == "normal":

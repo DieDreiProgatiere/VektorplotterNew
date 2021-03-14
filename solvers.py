@@ -7,6 +7,7 @@ from colorAssignclass import ColorAssign
 from nameAssignclass import NameAssign
 from listclass import ObjectLists
 import math
+import random
 
 
 class Solvers:
@@ -168,28 +169,48 @@ class Solvers:
     def schnittgerade(self,
                       plane1: Plane,
                       plane2: Plane):
-        """Calculates and Returns the schnittgerade of two Planes.
-           Returns a Line instance."""
-        pla1 = plane1.convertToHessianNormalForm()
-        pla2 = plane2.convertToHessianNormalForm()
 
-        normvec1 = pla1.normVec
-        normvec2 = pla2.normVec
+        if plane1.getType() != "parameter":
+            plane1 = plane1.convertToParameterForm()
+        else:
+            pass
+        
+        if plane2.getType() != "coordinate":
+            plane2 = plane2.convertToCoordinateForm()
+        else:
+            pass
+        
+        xValNormVec = plane2.getNormalVector().getX()
+        yValNormVec = plane2.getNormalVector().getY()
+        zValNormVec = plane2.getNormalVector().getZ()
 
-        posnum1 = pla1.posVec.scalarProduct(normvec1)
-        posnum2 = pla2.posVec.scalarProduct(normvec2)
+        xValDirVec1 = plane1.getDirectionVectorOne().getX()
+        yValDirVec1 = plane1.getDirectionVectorOne().getY()
+        zValDirVec1 = plane1.getDirectionVectorOne().getZ()
 
-        schnittgerade = not Solvers.checkLinearAbhaengig(normvec1, normvec2)  # Testing if the Planes are not Parallel
+        xValDirVec2 = plane1.getDirectionVectorTwo().getX()
+        yValDirVec2 = plane1.getDirectionVectorTwo().getY()
+        zValDirVec2 = plane1.getDirectionVectorTwo().getZ()
 
-        if schnittgerade:
-            dirVec = normvec1.vectorProduct(normvec2)
-            posVecScalar1 = ((posnum1*normvec2.square())-(posnum2*normvec1.scalarProduct(normvec2)))/((normvec1.square()*normvec2.square())-normvec1.scalarProduct(normvec2)**2)
-            posVecScalar2 = ((posnum2*normvec1.square())-(posnum1*normvec1.scalarProduct(normvec2)))/((normvec1.square()*normvec2.square())-normvec1.scalarProduct(normvec2)**2)
-            normvec1 = normvec1.scalarMultiplication(posVecScalar1)
-            normvec2 = normvec2.scalarMultiplication(posVecScalar2)
-            posVec = normvec1.add(normvec2)
-            schnittgerade = Line(posVec, dirVec, name=("Schnittgerade von "+pla1.name+" und "+pla2.name))
-        return schnittgerade
+        xValPosVec = plane1.getPositionVector().getX()
+        yValPosVec = plane1.getPositionVector().getY()
+        zValPosVec = plane1.getPositionVector().getZ()
+
+        scalParam = plane2.getScalarParameter()
+
+        var1 = xValNormVec * xValDirVec1 + yValDirVec1 * yValNormVec + zValDirVec1 * zValNormVec
+        var2 = xValNormVec * xValDirVec2 + yValNormVec * yValDirVec2 + zValNormVec * zValDirVec2
+        varScal = xValNormVec * xValPosVec + yValNormVec * yValPosVec + zValPosVec * zValNormVec
+
+        valueOfVarScal1 = (scalParam-varScal)/var2
+        valueOfVar1Var2 = -var1/var2
+        
+        dirVecOfLine = plane1.getDirectionVectorOne().add(plane1.getDirectionVectorTwo().scalarMultiplication(valueOfVar1Var2))
+        posVecOfLine = plane1.getPositionVector().add(plane1.getDirectionVectorTwo().scalarMultiplication(valueOfVarScal1))
+
+        return Line(posVecOfLine,dirVecOfLine, "Schnittgerade von " + plane1.getName() + " " + plane2.getName())
+
+
 
     @classmethod
     def checkParallel(self,
@@ -406,6 +427,31 @@ class Solvers:
         distance = Solvers.distancePointPoint(schnittPoint,point)
         return distance
 
+    @classmethod
+    def solveForSpurpunkt(self, line:Line, cordPlane):
+        xy = Plane.parameterForm(Vector3D(0,0,0),Vector3D(1,0,0),Vector3D(0,1,0))
+        yz = Plane.parameterForm(Vector3D(0,0,0),Vector3D(0,1,0),Vector3D(0,0,1))
+        xz = Plane.parameterForm(Vector3D(0,0,0),Vector3D(1,0,0),Vector3D(0,0,1))
+        if cordPlane == "xy" or cordPlane=="yz" or cordPlane=="xz":
+            if cordPlane == "xy":
+                return Solvers.solveForPointPlane(line,xy)
+            elif cordPlane == "yz":
+                return Solvers.solveForPointPlane(line,yz)
+            elif cordPlane == "xz":
+                return Solvers.solveForPointPlane(line,xz)
+        else:
+            return "Keine Koordinatenebene"
 
-
+    @classmethod
+    def solveForSpurgerade(self, plane1:Plane, cordPlane):
+        plane = plane1.convertToParameterForm()
+        if cordPlane == "xy" or cordPlane=="yz" or cordPlane=="xz":
+            if cordPlane == "xy":
+                return Solvers.schnittgerade(plane,Plane.coordinateForm(Vector3D(0,0,1),0))
+            elif cordPlane == "yz":
+                return Solvers.schnittgerade(plane,Plane.coordinateForm(Vector3D(1,0,0),0))
+            elif cordPlane == "xz":
+                return Solvers.schnittgerade(plane,Plane.coordinateForm(Vector3D(0,1,0),0))
+        else:
+            return None
 

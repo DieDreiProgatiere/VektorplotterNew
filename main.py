@@ -9,6 +9,7 @@ from planeclass import Plane
 from colorAssignclass import ColorAssign
 from nameAssignclass import NameAssign
 from listclass import ObjectLists
+from solvers import Solvers
 
 VecList = []
 PoiList = []
@@ -74,8 +75,15 @@ while running:
         name = input("Name: ")
         PlaList.append(Plane.parameterForm(Vec1, Vec2, Vec3, name, (0, 0, 0)))
         print(str(PlaList[-1].convertToHessianNormalForm()))
+    elif UserInput == "Schnittgerade":
+        ebene1 = Plane.coordinateForm(Vector3D(-2,1,-3),7)
+        ebene = Plane.coordinateForm(Vector3D(3,-2,1),4)
+        print(Solvers.schnittgerade(ebene,ebene1))
     elif UserInput == "X":
         running = False
     else:
         print("Uberprüfen Sie bitte ihre Eingabe!")
         print("")
+
+plane3 = Plane.normalForm(Vector3D(3,3,3),Vector3D(5,6,7))
+plane4 = Plane.parameterForm(Vector3D(3,3,3),Vector3D(5,6,7),Vector3D(24,3,2))
