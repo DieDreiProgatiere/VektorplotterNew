@@ -14,8 +14,8 @@ class Vector3D:
                  z=0.0,
                  name=None,
                  color=None,
-                 show=True,
-                 append=True
+                 show=False,
+                 append=False
                  ):
         """The init function for the Vector3D class.
         Takes x, y and z values as int or float.

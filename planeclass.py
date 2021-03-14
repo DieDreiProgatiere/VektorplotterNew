@@ -20,8 +20,8 @@ class Plane:
                       directionVectorTwo: Vector3D,
                       name=None,
                       color=None,
-                      show=True,
-                      append=True):
+                      show=False,
+                      append=False):
         """The classmethod for initializing a Plane in parameter Form.
            Takes positionVector and directionVectorOne and directionVectorTwo as Vector3D, parameter as int or float,
            name as string and color as tuple of format: (Red, Green, Blue)(Valuerange = 0 to 256)."""
@@ -35,8 +35,8 @@ class Plane:
                    normalVector: Vector3D,
                    name=None,
                    color=None,
-                   show=True,
-                   append=True):
+                   show=False,
+                   append=False):
         """The classmethod for intializing a Plane in normal Form.
            Takes positionVector and normalVector as Vector3D, name as string and color as tuple of format:
            (Red, Green, Blue)(Valuerange = 0 to 256)."""
@@ -50,8 +50,8 @@ class Plane:
                        scalarParameter :float,
                        name=None,
                        color=None,
-                       show=True,
-                       append=True):
+                       show=False,
+                       append=False):
         """The classmethod for initializing a Plane in coordinate Form.
            Takes a, b, c, d as float, name as string and color as tuple of format:
            (Red, Green, Blue)(Valuerange = 0 to 256).
@@ -68,8 +68,8 @@ class Plane:
                  scalarParameter: float,
                  name=None,
                  color=None,
-                 show=True,
-                 append=True):
+                 show=False,
+                 append=False):
         """The init method of the plane class.
            Takes positionVector and directionVectorOne and directionVectorTwo as Vector3D, parameter as int or float,
            name as string and color as tuple of format: (Red, Green, Blue)(Valuerange = 0 to 256)."""

@@ -7,7 +7,7 @@ class Point:
     __idTag = "poi"
     __idCount = 0
 
-    def __init__(self, x=0, y=0, z=0, name=None, color=None, show=True, append=True):
+    def __init__(self, x=0, y=0, z=0, name=None, color=None, show=False, append=False):
         self.__x = float(x)
         self.__y = float(y)
         self.__z = float(z)
