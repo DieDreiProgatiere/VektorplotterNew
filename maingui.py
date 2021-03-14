@@ -1,4 +1,4 @@
-from PyQt5.QtWidgets import QApplication, QButtonGroup, QGridLayout, QGroupBox, QHBoxLayout, QLabel, QMainWindow, QPushButton, QScrollArea, QSizePolicy, QVBoxLayout, QWidget, QLineEdit
+from PyQt5.QtWidgets import QApplication, QGridLayout, QHBoxLayout, QLabel, QMainWindow, QPushButton, QScrollArea, QSizePolicy, QWidget, QLineEdit
 from PyQt5.QtWebEngineWidgets import QWebEngineView
 from PyQt5.QtCore import Qt, QSize
 from PyQt5 import QtWidgets, uic
@@ -79,6 +79,8 @@ class MainWindow(QMainWindow):
         self.listBox.setMaximumWidth(450)
         self.listBox.setMinimumWidth(450)
         self.listBox.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+        self.listBoxLayout.setContentsMargins(0, 10, 0, 0)
+
         self.listScroll = QScrollArea()
         self.listScroll.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOn)
         self.listScroll.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
@@ -89,7 +91,9 @@ class MainWindow(QMainWindow):
 
         self.listLabel = QLabel(self.listBox)
         self.listLabel.setText("List:")
-        self.listBoxLayout.addWidget(self.listLabel, 0, 0)
+        self.listLabel.setSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
+        self.listBoxLayout.addWidget(self.listLabel, 0, 0, Qt.AlignmentFlag.AlignTop)
+
         for element, index in zip(ObjectLists.getObjDict(), range(ObjectLists.getObjDictLen())):
             self.objButton = QPushButton(self.listBox)
             self.objButton.setText(str(element) + ": " + str(ObjectLists.getObjDict()[element]))
@@ -98,7 +102,7 @@ class MainWindow(QMainWindow):
             self.objButton.move(0, 25 + index * 25)
             self.objButton.setMinimumSize(QSize(50, 50))
             self.objButton.setMaximumWidth(500)
-            self.listBoxLayout.addWidget(self.objButton, index + 1, 0)
+            self.listBoxLayout.addWidget(self.objButton, index + 1, 0, Qt.AlignmentFlag.AlignTop)
 
         self.listBox.setLayout(self.listBoxLayout)
         self.mainLayout.addWidget(self.listScroll, 1, 0)
@@ -106,16 +110,24 @@ class MainWindow(QMainWindow):
     def makeMenuView(self):
         self.menuBox = QWidget()
         self.menuBoxLayout = QHBoxLayout()
+        self.menuBoxLayout.setContentsMargins(0, 0, 0, 0)
+        self.menuBoxLayout.setSpacing(10)
+
         self.homeButton = QPushButton()
         self.homeButton.setText("Home")
-        #self.homeButton.adjustSize()
         self.homeButton.setMaximumSize(75, 30)
         self.homeButton.setMinimumSize(75, 30)
-        self.homeButton.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+        self.homeButton.setSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
         self.homeButton.clicked.connect(lambda: self.home()) # home is Placeholder, lambda for future args
-        self.homeButton.move(0, 0)
-        self.menuBoxLayout.addWidget(self.homeButton, 0)
-        self.menuBox.setMaximumHeight(50)
+        self.menuBoxLayout.addWidget(self.homeButton, 0, Qt.AlignmentFlag.AlignLeft)
+
+        self.otherButton = QPushButton()
+        self.otherButton.setText("Test")
+        self.otherButton.setMaximumSize(75, 30)
+        self.otherButton.setMinimumSize(75, 30)
+        self.otherButton.setSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
+        self.otherButton.clicked.connect(lambda: self.home()) # home is Placeholder, lambda for future args
+        self.menuBoxLayout.addWidget(self.otherButton, 1, Qt.AlignmentFlag.AlignLeft)
 
         self.menuBox.setLayout(self.menuBoxLayout)
         self.mainLayout.addWidget(self.menuBox, 0, 0)
