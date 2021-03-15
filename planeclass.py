@@ -203,7 +203,7 @@ class Plane:
 
     def __str__(self):
         if self.__typeOfPlane == "normal":
-            return "(x - "+ str(self.__positionVector)+" + ) * "+str(self.__normalVector)+" = 0"
+            return "(x - "+ str(self.__positionVector)+ ") * "+str(self.__normalVector)+" = 0"
         elif self.__typeOfPlane == "parameter":
             return "x = "+str(self.__positionVector)+" + r * "+str(self.__directionVectorOne)+" + s * "+str(self.__directionVectorTwo)
         elif self.__typeOfPlane == "coordinate":
