@@ -5,6 +5,7 @@ from PyQt5 import QtWidgets, uic
 import sys
 import plotly
 import plotly.express as px
+import plotly.graph_objects as go
 import numpy as np
 import pandas as pd
 
