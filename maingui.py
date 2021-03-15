@@ -201,10 +201,8 @@ class MainWindow(QMainWindow):
         self.listBoxLayout.removeWidget(self.newObjectInputLine)
         self.listBoxLayout.update()
         exec("self.newObject = " + self.newObjectInputLineText)
-        print(self.newObject)
         ObjectLists.appendObjDict({self.newObject.getID(): self.newObject})
         self.main()
-        # Has to execute with exec or call another function to add self.newObjectInputLineText (which is the new object) to the ObjDict and ...List
         
 
     def newCalcInput(self):
@@ -215,8 +213,9 @@ class MainWindow(QMainWindow):
         self.listBoxLayout.removeWidget(self.newCalcInputLine)
         self.listBoxLayout.update()
 
-        return self.newCalcInputLineText
-        # Has to be passed to another function, which handles Calculation Input....or handeld in this method 
+        exec("self.newCalc =" + self.newCalcInputLineText)
+        #Newclass.newfunction(self.newCalc)
+        self.main()
 
 
 if __name__ == '__main__':
