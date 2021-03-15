@@ -94,18 +94,20 @@ class MainWindow(QMainWindow):
         self.listLabel.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
         self.listBoxLayout.addWidget(self.listLabel, 0, 0, Qt.AlignmentFlag.AlignTop)
 
+        self.objButtonList = []
         for element, index in zip(ObjectLists.getObjDict(), range(ObjectLists.getObjDictLen())):
-            self.objButton = QPushButton(self.listBox)
-            self.objButton.setText(str(element) + ": " + str(ObjectLists.getObjDict()[element]))
-            self.objButton.adjustSize()
-            self.objButton.clicked.connect(lambda: self.highlightObject(element, index))
-            self.objButton.move(0, 25 + index * 25)
-            self.objButton.setMinimumSize(QSize(50, 50))
-            self.objButton.setMaximumWidth(500)
-            self.listBoxLayout.addWidget(self.objButton, index + 1, 0, Qt.AlignmentFlag.AlignTop)
+            self.objButtonList.append(QPushButton(self.listBox))
+            self.objButtonList[-1].setText(str(element) + ": " + str(ObjectLists.getObjDict()[element]))
+            self.objButtonList[-1].adjustSize()
+            self.objButtonList[-1].clicked.connect(lambda e = element, i = index: self.highlightObject(e, i))
+            self.objButtonList[-1].setMinimumSize(QSize(50, 50))
+            self.objButtonList[-1].setMaximumWidth(500)
+            
+            self.listBoxLayout.addWidget(self.objButtonList[-1], index + 1, 0, Qt.AlignmentFlag.AlignTop)
 
         self.listBox.setLayout(self.listBoxLayout)
         self.mainLayout.addWidget(self.listScroll, 1, 0)
+
 
     def makeMenuView(self):
         self.menuBox = QWidget()
@@ -158,9 +160,8 @@ class MainWindow(QMainWindow):
         self.mainLayout.addWidget(self.newBox, 2, 0)
 
 
-    def highlightObject(self, element, index):
-        print(str(element) + "with index" + str(index) + "was clicked")
-        # Does not work yet, always printing last element in list 
+    def highlightObject(self, elements, index):
+        pass
 
     def home(self):
         pass #Placeholder
