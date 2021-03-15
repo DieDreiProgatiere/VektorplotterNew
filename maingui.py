@@ -200,9 +200,10 @@ class MainWindow(QMainWindow):
         self.newObjectInputLine.setVisible(False)
         self.listBoxLayout.removeWidget(self.newObjectInputLine)
         self.listBoxLayout.update()
-        self.newObject = self.newObjectInputLineText
+        exec("self.newObject = " + self.newObjectInputLineText)
         print(self.newObject)
         ObjectLists.appendObjDict({self.newObject.getID(): self.newObject})
+        self.main()
         # Has to execute with exec or call another function to add self.newObjectInputLineText (which is the new object) to the ObjDict and ...List
         
 
