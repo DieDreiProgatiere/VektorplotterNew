@@ -16,13 +16,16 @@ from lineclass import Line
 from planeclass import Plane
 from nameAssignclass import NameAssign
 from colorAssignclass import ColorAssign
+from solvers import Solvers
+from objectsToFig import compileFig
 
 
-x = Vector3D(3, 4, 5)
-y = Plane.normalForm(Vector3D(1, 1, 1), Vector3D(2, 2, 2))
-z = Plane.parameterForm(Vector3D(3, 4, 5), Vector3D(2, 2, 2), Vector3D(2, 2, 2))
-#u = Plane.parameterForm(Vector3D(2, 5, 5), Vector3D(1, 4, 2), Vector3D(2, 6, 7))
-#v = Plane.coordinateForm(Vector3D(3, 2, 1), 2)
+vec = Vector3D(1, 2, 3,append=True)
+vec2 = Vector3D(2, 3, 4,append=True)
+point = Point(3,3,3,color=(50,50,50),append=True)
+line = Line(vec,Vector3D(10,1,1),append=True)
+plane = Plane.normalForm(vec,Vector3D(-5,-1,-1,"Herbert",(0,0,0),show=False,append=True),show=True,append=True)
+
 
 class MainWindow(QMainWindow):
 
@@ -44,13 +47,10 @@ class MainWindow(QMainWindow):
         self.main()
 
     def main(self):
-        ###Testing Purposes
-        d = {'x': [0, 1], 'y': [0, 1], 'z': [0, 2]}
-        df = pd.DataFrame(data=d)
-        lin = px.line_3d(df, x="x", y="y", z="z")
-        lin.add_surface(z=np.array([[1,1,1],[1,1,1],[1,1,1]]))
+        figure = compileFig()
         ###Testing Purposes over
-        self.makeWebEngineView(lin)
+        self.makeWebEngineView(figure)
+
         self.makeMenuView()
         self.makeListView()
         self.makeNewObjectView()
@@ -62,9 +62,8 @@ class MainWindow(QMainWindow):
         self.webBox.setMinimumSize(500, 500)
         self.webBox.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
         self.webBoxLayout.setContentsMargins(0, 0, 0, 0)
-        self.html = '<html><body>'
-        self.html += plotly.offline.plot(fig, output_type='div', include_plotlyjs='cdn')
-        self.html += '</body></html>'
+
+        self.html = fig.to_html(include_plotlyjs="cdn", full_html=True, include_mathjax="cdn")
 
         self.plot_widget = QWebEngineView()
         self.plot_widget.setHtml(self.html)
