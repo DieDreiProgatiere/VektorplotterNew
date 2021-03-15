@@ -26,6 +26,7 @@ class Point:
             ObjectLists.appendObjDict({str(self.__id): self})
             ObjectLists.appendPoiList(self)
 
+
     def __del__(self):
         ColorAssign.removeColor(self.__color)
         NameAssign.removeName(self.__name)

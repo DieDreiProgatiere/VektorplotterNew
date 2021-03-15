@@ -39,6 +39,7 @@ class Line:
             ObjectLists.appendObjDict({str(self.__id): self})
             ObjectLists.appendLinList(self)
 
+
     def __del__(self):
         ColorAssign.removeColor(self.__color)
         NameAssign.removeName(self.__name)

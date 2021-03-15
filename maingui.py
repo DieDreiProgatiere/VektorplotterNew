@@ -48,7 +48,6 @@ class MainWindow(QMainWindow):
 
     def main(self):
         figure = compileFig()
-        ###Testing Purposes over
         self.makeWebEngineView(figure)
 
         self.makeMenuView()
@@ -201,8 +200,9 @@ class MainWindow(QMainWindow):
         self.newObjectInputLine.setVisible(False)
         self.listBoxLayout.removeWidget(self.newObjectInputLine)
         self.listBoxLayout.update()
-
-        return self.newObjectInputLineText
+        self.newObject = self.newObjectInputLineText
+        print(self.newObject)
+        ObjectLists.appendObjDict({self.newObject.getID(): self.newObject})
         # Has to execute with exec or call another function to add self.newObjectInputLineText (which is the new object) to the ObjDict and ...List
         
 

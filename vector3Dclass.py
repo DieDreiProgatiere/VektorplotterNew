@@ -38,6 +38,7 @@ class Vector3D:
             ObjectLists.appendObjDict({str(self.__id) : self})
             ObjectLists.appendVecList(self)
 
+
     def __del__(self):
         ColorAssign.removeColor(self.__color)
         NameAssign.removeName(self.__name)
