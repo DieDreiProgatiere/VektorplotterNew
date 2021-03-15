@@ -197,6 +197,7 @@ class MainWindow(QMainWindow):
         # this method is called if the return key is pressed in the newObjectButtonClicked method
         self.showingNewObjectInputLine = False
         self.newObjectInputLineText = self.newObjectInputLine.text()
+        self.newObjectInputLine.setVisible(False)
         self.listBoxLayout.removeWidget(self.newObjectInputLine)
         self.listBoxLayout.update()
 
@@ -208,6 +209,7 @@ class MainWindow(QMainWindow):
         # this method is called, if the return key is pressed in the newCalcButtonClicked method
         self.showingNewCalcInputLine = False
         self.newCalcInputLineText = self.newCalcInputLine.text()
+        self.newCalcInputLine.setVisible(False)
         self.listBoxLayout.removeWidget(self.newCalcInputLine)
         self.listBoxLayout.update()
 
