@@ -213,8 +213,7 @@ class MainWindow(QMainWindow):
         self.listBoxLayout.removeWidget(self.newCalcInputLine)
         self.listBoxLayout.update()
 
-        exec("self.newCalc =" + self.newCalcInputLineText)
-        #Newclass.newfunction(self.newCalc)
+        #Newclass.newfunction(self.newCalcInputLineText)
         self.main()
 
 
