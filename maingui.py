@@ -20,8 +20,8 @@ from colorAssignclass import ColorAssign
 x = Vector3D(3, 4, 5)
 y = Plane.normalForm(Vector3D(1, 1, 1), Vector3D(2, 2, 2))
 z = Plane.parameterForm(Vector3D(3, 4, 5), Vector3D(2, 2, 2), Vector3D(2, 2, 2))
-u = Plane.parameterForm(Vector3D(2, 5, 5), Vector3D(1, 4, 2), Vector3D(2, 6, 7))
-v = Plane.coordinateForm(Vector3D(3, 2, 1), 2)
+#u = Plane.parameterForm(Vector3D(2, 5, 5), Vector3D(1, 4, 2), Vector3D(2, 6, 7))
+#v = Plane.coordinateForm(Vector3D(3, 2, 1), 2)
 
 class MainWindow(QMainWindow):
 
