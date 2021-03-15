@@ -91,7 +91,7 @@ class MainWindow(QMainWindow):
 
         self.listLabel = QLabel(self.listBox)
         self.listLabel.setText("List:")
-        self.listLabel.setSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
+        self.listLabel.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
         self.listBoxLayout.addWidget(self.listLabel, 0, 0, Qt.AlignmentFlag.AlignTop)
 
         for element, index in zip(ObjectLists.getObjDict(), range(ObjectLists.getObjDictLen())):
