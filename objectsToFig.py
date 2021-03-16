@@ -120,11 +120,3 @@ def compileFig():
                 fig.add_trace(go.Scatter3d(x=[elem.x], y=[elem.y], z=[elem.z], line_color="rgb"+str(elem.getColor()), name=elem.getID()))
     return fig
 
-
-##vec = Vector3D(1, 2, 3)
-##vec2 = Vector3D(2, 3, 4)
-##point = Point(3,3,3,color=(50,50,50))
-##line = Line(vec,Vector3D(10,1,1))
-##plane = Plane.normalForm(vec,Vector3D(-5,-1,-1,"Herbert",(0,0,0),show=False,append=True),show=True,append=True)
-##figure = compileFig()
-##figure.show()

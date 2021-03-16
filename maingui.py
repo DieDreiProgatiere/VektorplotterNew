@@ -20,14 +20,6 @@ from solvers import Solvers
 from objectsToFig import compileFig
 
 
-#vec = Vector3D(1, 2, 3,append=True)
-#x = Vector3D(3, 4, 5,append=True,show=True)
-#y = Plane.normalForm(Vector3D(1, 1, 1), Vector3D(2, 2, 2),append=True,show=True)
-#z = Plane.parameterForm(Vector3D(3, 4, 5), Vector3D(2, 5, 2), Vector3D(12, 2, 2),append=True,show=True)
-#u = Plane.parameterForm(Vector3D(2, 5, 5), Vector3D(1, 4, 2), Vector3D(2, 6, 7),append=True,show=True)
-#plane = Plane.normalForm(vec,Vector3D(-5,-1,-1,"Herbert",(0,0,0),show=False,append=True),show=True,append=True)
-#v = Plane.coordinateForm(Vector3D(3, 2, 1), 2,append=True,show=True)
-
 vec = Vector3D(1, 2, 3,append=True)
 vec2 = Vector3D(2, 3, 4,append=True)
 point = Point(3,3,3,color=(50,50,50),append=True)
@@ -56,8 +48,8 @@ class MainWindow(QMainWindow):
 
     def main(self):
         figure = compileFig()
-        ###Testing Purposes over
         self.makeWebEngineView(figure)
+
         self.makeMenuView()
         self.makeListView()
         self.makeNewObjectView()
@@ -69,10 +61,7 @@ class MainWindow(QMainWindow):
         self.webBox.setMinimumSize(500, 500)
         self.webBox.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
         self.webBoxLayout.setContentsMargins(0, 0, 0, 0)
-        #fig.show()
-        #self.html = '<html><body>'
-        #self.html += plotly.offline.plot(fig, output_type='div', include_plotlyjs='cdn')
-        #self.html += '</body></html>'
+
         self.html = fig.to_html(include_plotlyjs="cdn", full_html=True, include_mathjax="cdn")
 
         self.plot_widget = QWebEngineView()
@@ -101,21 +90,23 @@ class MainWindow(QMainWindow):
 
         self.listLabel = QLabel(self.listBox)
         self.listLabel.setText("List:")
-        self.listLabel.setSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
+        self.listLabel.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
         self.listBoxLayout.addWidget(self.listLabel, 0, 0, Qt.AlignmentFlag.AlignTop)
 
+        self.objButtonList = []
         for element, index in zip(ObjectLists.getObjDict(), range(ObjectLists.getObjDictLen())):
-            self.objButton = QPushButton(self.listBox)
-            self.objButton.setText(str(element) + ": " + str(ObjectLists.getObjDict()[element]))
-            self.objButton.adjustSize()
-            self.objButton.clicked.connect(lambda: self.highlightObject(element, index))
-            self.objButton.move(0, 25 + index * 25)
-            self.objButton.setMinimumSize(QSize(50, 50))
-            self.objButton.setMaximumWidth(500)
-            self.listBoxLayout.addWidget(self.objButton, index + 1, 0, Qt.AlignmentFlag.AlignTop)
+            self.objButtonList.append(QPushButton(self.listBox))
+            self.objButtonList[-1].setText(str(element) + ": " + str(ObjectLists.getObjDict()[element]))
+            self.objButtonList[-1].adjustSize()
+            self.objButtonList[-1].clicked.connect(lambda e = element, i = index: self.highlightObject(e, i))
+            self.objButtonList[-1].setMinimumSize(QSize(50, 50))
+            self.objButtonList[-1].setMaximumWidth(500)
+            
+            self.listBoxLayout.addWidget(self.objButtonList[-1], index + 1, 0, Qt.AlignmentFlag.AlignTop)
 
         self.listBox.setLayout(self.listBoxLayout)
         self.mainLayout.addWidget(self.listScroll, 1, 0)
+
 
     def makeMenuView(self):
         self.menuBox = QWidget()
@@ -168,9 +159,8 @@ class MainWindow(QMainWindow):
         self.mainLayout.addWidget(self.newBox, 2, 0)
 
 
-    def highlightObject(self, element, index):
-        print(str(element) + "with index" + str(index) + "was clicked")
-        # Does not work yet, always printing last element in list 
+    def highlightObject(self, elements, index):
+        pass
 
     def home(self):
         pass #Placeholder
@@ -207,22 +197,24 @@ class MainWindow(QMainWindow):
         # this method is called if the return key is pressed in the newObjectButtonClicked method
         self.showingNewObjectInputLine = False
         self.newObjectInputLineText = self.newObjectInputLine.text()
+        self.newObjectInputLine.setVisible(False)
         self.listBoxLayout.removeWidget(self.newObjectInputLine)
         self.listBoxLayout.update()
-
-        return self.newObjectInputLineText
-        # Has to execute with exec or call another function to add self.newObjectInputLineText (which is the new object) to the ObjDict and ...List
+        exec("self.newObject = " + self.newObjectInputLineText)
+        ObjectLists.appendObjDict({self.newObject.getID(): self.newObject})
+        self.main()
         
 
     def newCalcInput(self):
         # this method is called, if the return key is pressed in the newCalcButtonClicked method
         self.showingNewCalcInputLine = False
         self.newCalcInputLineText = self.newCalcInputLine.text()
+        self.newCalcInputLine.setVisible(False)
         self.listBoxLayout.removeWidget(self.newCalcInputLine)
         self.listBoxLayout.update()
 
-        return self.newCalcInputLineText
-        # Has to be passed to another function, which handles Calculation Input....or handeld in this method 
+        #Newclass.newfunction(self.newCalcInputLineText)
+        self.main()
 
 
 if __name__ == '__main__':
