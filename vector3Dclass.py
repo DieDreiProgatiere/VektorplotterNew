@@ -123,7 +123,7 @@ class Vector3D:
                         self.__z-other.__z)
 
     def scalarProduct(self, other):
-        """Returns the scalar product (defined as: length(a)*length(a)*cos(a,b))
+        """Returns the scalar product (defined as: length(a)*length(b)*cos(a,b))
         of two given Vector3D instances as a scalar (float)."""
         return float(self.__x*other.__x+self.__y*other.__y+self.__z*other.__z)
 
