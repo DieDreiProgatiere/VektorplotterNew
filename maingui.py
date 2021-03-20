@@ -18,6 +18,7 @@ from nameAssignclass import NameAssign
 from colorAssignclass import ColorAssign
 from solvers import Solvers
 from objectsToFig import compileFig
+from calcInputclass import CalcInput
 
 
 vec = Vector3D(1, 2, 3,append=True)
@@ -94,6 +95,7 @@ class MainWindow(QMainWindow):
         self.listBoxLayout.addWidget(self.listLabel, 0, 0, Qt.AlignmentFlag.AlignTop)
 
         self.objButtonList = []
+        self.delObjectButtonList = []
         for element, index in zip(ObjectLists.getObjDict(), range(ObjectLists.getObjDictLen())):
             self.objButtonList.append(QPushButton(self.listBox))
             self.objButtonList[-1].setText(str(element) + ": " + str(ObjectLists.getObjDict()[element]))
@@ -102,7 +104,15 @@ class MainWindow(QMainWindow):
             self.objButtonList[-1].setMinimumSize(QSize(50, 50))
             self.objButtonList[-1].setMaximumWidth(500)
             
+            self.delObjectButtonList.append(QPushButton(self.listBox))
+            self.delObjectButtonList[-1].setText("X")
+            self.delObjectButtonList[-1].adjustSize()
+            self.delObjectButtonList[-1].clicked.connect(lambda e = element, i = index: self.delObject(e, i))
+            self.delObjectButtonList[-1].setMinimumSize(QSize(50, 50))
+            self.delObjectButtonList[-1].setMaximumWidth(50)
+
             self.listBoxLayout.addWidget(self.objButtonList[-1], index + 1, 0, Qt.AlignmentFlag.AlignTop)
+            self.listBoxLayout.addWidget(self.delObjectButtonList[-1], index + 1, 1, Qt.AlignmentFlag.AlignTop)
 
         self.listBox.setLayout(self.listBoxLayout)
         self.mainLayout.addWidget(self.listScroll, 1, 0)
@@ -162,8 +172,22 @@ class MainWindow(QMainWindow):
     def highlightObject(self, elements, index):
         pass
 
+
+    def delObject(self, element, index):
+        if index <= ObjectLists.getObjDictLen():
+            pass
+        e = str(list(ObjectLists.getObjDict().keys())[index]) #+ str(ObjectLists.getObjDict()[list(ObjectLists.getObjDict().keys())[index]])
+        print(e)
+        ObjectLists.removeFromObjDict(e)
+        print(str(ObjectLists.getObjDict()) + str(ObjectLists.getObjDictLen()))
+        self.listBoxLayout.removeWidget(self.objButtonList[index])
+        self.listBoxLayout.removeWidget(self.delObjectButtonList[index])
+        self.listBoxLayout.update()
+
+
     def home(self):
         pass #Placeholder
+
 
     def newObjectButtonClicked(self):
         # this method is called, if the newObjectButton is clicked
@@ -173,7 +197,7 @@ class MainWindow(QMainWindow):
 
             self.newObjectInputLine = QLineEdit()
             self.newObjectInputLine.setFrame(True)
-            self.listBoxLayout.addWidget(self.newObjectInputLine)
+            self.listBoxLayout.addWidget(self.newObjectInputLine, ObjectLists.getObjDictLen() + 2, 0, 1, 2)
             self.listBoxLayout.update()
             self.newObjectInputLine.returnPressed.connect(lambda: self.newObjectInput())
         else:
@@ -187,7 +211,7 @@ class MainWindow(QMainWindow):
 
             self.newCalcInputLine = QLineEdit()
             self.newCalcInputLine.setFrame(True)
-            self.listBoxLayout.addWidget(self.newCalcInputLine)
+            self.listBoxLayout.addWidget(self.newCalcInputLine, ObjectLists.getObjDictLen() + 2, 0, 1, 2)
             self.listBoxLayout.update()
             self.newCalcInputLine.returnPressed.connect(lambda: self.newCalcInput())
         else:
@@ -213,7 +237,7 @@ class MainWindow(QMainWindow):
         self.listBoxLayout.removeWidget(self.newCalcInputLine)
         self.listBoxLayout.update()
 
-        #Newclass.newfunction(self.newCalcInputLineText)
+        CalcInput.handleInput(self.newCalcInputLineText)
         self.main()
 
 
