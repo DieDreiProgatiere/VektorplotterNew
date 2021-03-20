@@ -18,19 +18,19 @@ class CalcInput:
         if "+" in input:
             self.handleAddition(self, input)
         elif "add" in input:
-            pass #self.handleOtherAddition(self, input)
+            pass #self.handleExplicitAddition(self, input)
         elif "-" in input:
             self.handleSubtraction(self, input)
         elif "subtract" in input:
-            pass #self.handleOtherSubtraction(self, input)
+            pass #self.handleExplicitSubtraction(self, input)
         elif "*" in input:
             self.handleScalarProduct(self, input)
         elif "scalarProduct" in input:
-            pass #self.handleOtherScalarProduct(self, input)
-        elif ":" in input:
-            pass
+            pass #self.handleExplicitScalarProduct(self, input)
+        elif ":" in input or "/" in input:
+            self.handleDivision(self, input)
         elif "divide" in input:
-            pass
+            pass #self.handleExplicitDivision(self, input)
         else:
             print("nothing to handle!")
 
@@ -51,6 +51,9 @@ class CalcInput:
 
             print(addedVec) # Testing Purposes
 
+    def handleExplicitAddition(self, input):
+        pass
+
 
     def handleSubtraction(self, input):
         subtraction = re.split(r"[-]", input)
@@ -67,6 +70,9 @@ class CalcInput:
                     pass
 
             print(subtractedVec) # Testing Purposes
+
+    def handleExplicitSubtraction(self, input):
+        pass
 
     def handleScalarProduct(self, input):
         scalar = re.split(r"[*]", input)
@@ -85,4 +91,25 @@ class CalcInput:
                     multVec = multVec.scalarMultiplication(nextNum)
                     print(multVec) # Testing Purposes
 
+
+    def handleExplicitScalarProduct(self, input):
+        pass
+
+    def handleDivision(self, input):
+        try:
+            division = re.split(r"[*]", input)
+        except len(division) == 1:
+            division = re.split(r"[/]", input)
+
+        if not(len(division) == 1):
+            firstVec = ObjectLists.getObjDict().get(division[0].strip())
+            divVec = firstVec
+            for index in range(len(division) - 1):
+                nextNum = division[index + 1].strip()
+                divVec = divVec.scalarDivision(nextNum)
+                print(divVec) # Testing Purposes
+                    
+
+    def handleExplicitDivision(self, input):
+        pass
             
