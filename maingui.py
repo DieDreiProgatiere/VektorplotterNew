@@ -174,15 +174,17 @@ class MainWindow(QMainWindow):
 
 
     def delObject(self, element, index):
-        if index <= ObjectLists.getObjDictLen():
+        if index < ObjectLists.getObjDictLen():
+            #e = str(list(ObjectLists.getObjDict().keys())[index]) #+ str(ObjectLists.getObjDict()[list(ObjectLists.getObjDict().keys())[index]])
+            #ObjectLists.removeFromObjDict(e)
+            self.listBoxLayout.itemAt(index + 2).widget().deleteLater()
+            self.listBoxLayout.itemAt(index + 3).widget().deleteLater()
+            self.listBoxLayout.removeWidget(self.objButtonList[index])
+            self.listBoxLayout.removeWidget(self.delObjectButtonList[index])
+            self.listBoxLayout.update()
+        else:
             pass
-        e = str(list(ObjectLists.getObjDict().keys())[index]) #+ str(ObjectLists.getObjDict()[list(ObjectLists.getObjDict().keys())[index]])
-        print(e)
-        ObjectLists.removeFromObjDict(e)
-        print(str(ObjectLists.getObjDict()) + str(ObjectLists.getObjDictLen()))
-        self.listBoxLayout.removeWidget(self.objButtonList[index])
-        self.listBoxLayout.removeWidget(self.delObjectButtonList[index])
-        self.listBoxLayout.update()
+        
 
 
     def home(self):
