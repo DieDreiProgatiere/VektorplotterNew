@@ -120,6 +120,11 @@ class MainWindow(QMainWindow):
         self.listBox.setLayout(self.listBoxLayout)
         self.mainLayout.addWidget(self.listScroll, 1, 0)
 
+<<<<<<< Updated upstream
+=======
+
+
+>>>>>>> Stashed changes
     def makeMenuView(self):
         self.menuBox = QWidget()
         self.menuBoxLayout = QHBoxLayout()
@@ -174,13 +179,10 @@ class MainWindow(QMainWindow):
 
     def delObject(self, element, index):
         if index < ObjectLists.getObjDictLen():
-            #e = str(list(ObjectLists.getObjDict().keys())[index]) #+ str(ObjectLists.getObjDict()[list(ObjectLists.getObjDict().keys())[index]])
-            #ObjectLists.removeFromObjDict(e)
-            self.listBoxLayout.itemAt(index + 2).widget().deleteLater()
-            self.listBoxLayout.itemAt(index + 3).widget().deleteLater()
-            self.listBoxLayout.removeWidget(self.objButtonList[index])
-            self.listBoxLayout.removeWidget(self.delObjectButtonList[index])
+            e = str(list(ObjectLists.getObjDict().keys())[index])
+            ObjectLists.removeFromObjDict(e)
             self.listBoxLayout.update()
+            self.main()
         else:
             pass
 

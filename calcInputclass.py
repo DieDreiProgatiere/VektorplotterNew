@@ -31,6 +31,9 @@ class CalcInput:
             self.handleDivision(self, input)
         elif "divide" in input:
             pass #self.handleExplicitDivision(self, input)
+        elif "schneiden" in input or "Schneiden" in input:
+            self.handleSchneiden(self, input)
+
         else:
             print("nothing to handle!")
 
@@ -97,7 +100,7 @@ class CalcInput:
 
     def handleDivision(self, input):
         try:
-            division = re.split(r"[*]", input)
+            division = re.split(r"[:]", input)
         except len(division) == 1:
             division = re.split(r"[/]", input)
 
@@ -112,4 +115,34 @@ class CalcInput:
 
     def handleExplicitDivision(self, input):
         pass
-            
+    
+
+    def handleSchneiden(self, input):
+        presplit = re.split(r"[(]", input)
+        secondPresplit = re.split(r"[)]", presplit)
+        elements = re.split(r"[,]", secondPresplit)
+        print(elements)
+        firstElement = elements[0].strip()
+        secondElement = elements[1].strip()
+
+        if "lin" in firstElement:
+            if "lin" in secondElement:
+                point = Solvers.schnittpunkt(firstElement, secondElement)
+                print(point)
+            elif "pla" in secondElement:
+                point = Solvers.solveForPointPlane(firstElement, secondElement)
+                print(point)
+            else:
+                print("No valid arguments for Schneiden.")
+        elif "pla" in firstElement:
+            if "lin" in secondElement:
+                point = Solvers.solveForPointPlane(secondElement, firstElement)
+                print(point)
+            elif "pla" in secondElement:
+                line = Solvers.schnittgerade(firstElement, secondElement)
+                print(line)
+            else:
+                print("No valid arguments for Schneiden.")
+        else:
+            print("No valid arguments for Schneiden.")
+
