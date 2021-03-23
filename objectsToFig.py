@@ -105,6 +105,7 @@ def compileFig():
                     schnittpunkt = Solvers.solveForPointPlane(edge, elem)
                     if schnittpunkt is not None:
                         schnittpunkte.append(schnittpunkt)
+                        print(schnittpunkt)
                 x = []
                 y = []
                 z = []
@@ -112,12 +113,12 @@ def compileFig():
                     if 51 > schnittpunkt.x > -51 and 51 > schnittpunkt.y > -51 and 51 > schnittpunkt.z > -51:
                         x.append(schnittpunkt.x)
                         y.append(schnittpunkt.y)
-                        z.append(schnittpunkt.y)
+                        z.append(schnittpunkt.z)
                 fig.add_trace(go.Mesh3d(x=x,y=y,z=z,color="rgb"+str(elem.getColor()),opacity=0.5,name=elem.getID(),showlegend=True))
         elif elem[0:3] == "poi":
             elem = dictionary[elem]
             if elem.show:
                 fig.add_trace(go.Scatter3d(x=[elem.x], y=[elem.y], z=[elem.z], line_color="rgb"+str(elem.getColor()), name=elem.getID()))
-    # fig.show()
+    # fig.show()  # for showing the full figure in browser if planes do not render correctly in window
     return fig
 
