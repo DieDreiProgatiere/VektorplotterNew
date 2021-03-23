@@ -35,6 +35,8 @@ class CalcInput:
             self.handleSchneiden(self, input)
         elif "d" in input or "D" in input:
             self.handleDistance(self, input)
+        elif "winkel" in input:
+            self.handleAngle(self, input)
         else:
             print("nothing to handle!")
 
@@ -215,5 +217,16 @@ class CalcInput:
                 print("No valid arguments for Distance.")
         else:
             print("No valid arguments for Distance.")
+
+    def handleAngle(self, input):
+        elements = re.split(r"[(,)]", input)
+        firstElement = elements[1].strip()
+        secondElement = elements[2].strip()
+
+        try:
+            angle = Solvers.solveForSchnittwinkel(ObjectLists.getObjDict().get(firstElement), ObjectLists.getObjDict().get(secondElement))
+            print(angle)
+        except Exception:
+            print("No valid arguments for Angle.")
 
     
