@@ -137,28 +137,33 @@ class ColorAssign:
         """Returns a copy of the otherwise internal __colorList"""
         return list(self.__colorList)
 
-######Test Code (requires matplotlib.pyplot as plt, see top)
-##colAss = ColorAssign()
-####colAss.addColor((255,0,0))#ein paar farben vordefinieren um zu sehen wie gut optimiert wird
-####colAss.addColor((0,255,0))
-####colAss.addColor((0,0,255))
-####colAss.addColor((255,255,0))
-####colAss.addColor((0,255,255))
-####colAss.addColor((255,0,255))
-####colAss.addColor((0,0,0))
-##count = 0
-##count += len(colAss.getColorList())
-##while True:
-##    count += 1
-##    print("NewColor = "+str(colAss.getNewColor()))
-##    x = input()
-##    if x == "p":
-##        plt.figure(figsize=(count,1))
-##        colorList = colAss.getColorList()
-##        for n in range(count):
-##          ax = plt.subplot(1,count,n+1)
-##          plt.imshow([[colorList[n]]])#[[[colorList[n][0],colorList[n][0],[colorList[n][1],colorList[n][1]],[colorList[n][2],colorList[n][2]]]])
-##          plt.gray()
-##          ax.get_xaxis().set_visible(False)
-##          ax.get_yaxis().set_visible(False)
-##        plt.show()
+
+# Some Test Code that executes if colorAssignclass.py is run instead of imported
+if __name__ == '__main__':
+    import matplotlib.pyplot as plt
+    colAss = ColorAssign()
+#   colAss.addColor((255,0,0))  # ein paar farben vordefinieren um zu sehen wie gut optimiert wird
+#   colAss.addColor((0,255,0))
+#   colAss.addColor((0,0,255))
+#   colAss.addColor((255,255,0))
+#   colAss.addColor((0,255,255))
+#   colAss.addColor((255,0,255))
+#   colAss.addColor((0,0,0))
+    count = 0
+    count += len(colAss.getColorList())
+    while True:
+        count += 1
+        print("NewColor = "+str(colAss.getNewColor()))
+        x = input()
+        if x == "p":
+            plt.figure(figsize=(count,1))
+            colorList = colAss.getColorList()
+            for n in range(count):
+                ax = plt.subplot(1,count,n+1)
+                plt.imshow([[colorList[n]]]) #[[[colorList[n][0],colorList[n][0],[colorList[n][1],colorList[n][1]],[colorList[n][2],colorList[n][2]]]])
+                plt.gray()
+                ax.get_xaxis().set_visible(False)
+                ax.get_yaxis().set_visible(False)
+            plt.show()
+        elif x == "x":
+            break

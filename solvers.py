@@ -412,6 +412,6 @@ class Solvers:
         distance = Solvers.distancePointPoint(schnittPoint,point)
         return distance
 
-
-
-
+    @classmethod
+    def distancePlanePlane(cls, plane1:Plane, plane2:Plane):
+        pass
