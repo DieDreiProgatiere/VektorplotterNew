@@ -1,7 +1,6 @@
 from listclass import ObjectLists
 from solvers import Solvers
 import re
-from maingui import MainWindow
 
 
 class CalcInput:
@@ -28,6 +27,10 @@ class CalcInput:
             self.handleDivision(self, input)
         elif "divide" in input:
             pass #self.handleExplicitDivision(self, input)
+        elif "x" in input:
+            self.handleVectorProduct(self, input)
+        elif "kreuz" in input:
+            pass #self.handleExplicitVectorProduct(self, input)
         elif "schneiden" in input or "Schneiden" in input:
             self.handleSchneiden(self, input)
         elif "d" in input or "D" in input:
@@ -106,12 +109,39 @@ class CalcInput:
             firstVec = ObjectLists.getObjDict().get(division[0].strip())
             divVec = firstVec
             for index in range(len(division) - 1):
-                nextNum = division[index + 1].strip()
-                divVec = divVec.scalarDivision(nextNum)
-                print(divVec) # Testing Purposes
-                    
+                try:
+                    nextNum = division[index + 1].strip()
+                    divVec = divVec.scalarDivision(nextNum)
+                except IndexError:
+                    pass
+                except Exception:
+                    pass
+
+            print(str(input) + ": " + str(divVec)) # Testing Purposes
+
 
     def handleExplicitDivision(self, input):
+        pass #Future Implementation
+
+
+    def handleVectorProduct(self, input):
+        product = re.split(r"[x]", input)
+        if not(len(product) == 1):
+            firstVec = ObjectLists.getObjDict().get(product[0].strip())
+            multVec = firstVec
+            for index in range(len(product) - 1):
+                try:
+                    nextVec = ObjectLists.getObjDict().get(product[index + 1].strip())
+                    multVec = multVec.vectorProduct(nextVec)
+                except IndexError:
+                    pass
+                except Exception:
+                    pass
+
+            print(str(input) + ": " + str(multVec)) # Testing Purposes
+
+    
+    def handleExplicitVectorProduct(self, input):
         pass #Future Implementation
     
 
@@ -186,3 +216,4 @@ class CalcInput:
         else:
             print("No valid arguments for Distance.")
 
+    
