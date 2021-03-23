@@ -118,5 +118,6 @@ def compileFig():
             elem = dictionary[elem]
             if elem.show:
                 fig.add_trace(go.Scatter3d(x=[elem.x], y=[elem.y], z=[elem.z], line_color="rgb"+str(elem.getColor()), name=elem.getID()))
+    # fig.show()
     return fig
 

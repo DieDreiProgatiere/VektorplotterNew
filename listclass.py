@@ -9,30 +9,37 @@ class ObjectLists:
     __plaList = []
 
     def __init__(self) -> None:
+        """Platzhalter... Ist z. Z. nicht nötig."""
         pass
 
     @classmethod
     def getObjDict(self):
+        """Returns ObjectLists.__objDict."""
         return self.__objDict
 
     @classmethod
     def getVecList(self):
+        """Returns ObjectLists.__vecList."""
         return self.__vecList
 
     @classmethod
     def getPoiList(self):
+        """Returns ObjectLists.__poiList."""
         return self.__poiList
 
     @classmethod
     def getLinList(self):
+        """Returns ObjectLists.__linList."""
         return self.__linList
 
     @classmethod
     def getPlaList(self):
+        """Returns ObjectLists.__plaList."""
         return self.__plaList
 
     @classmethod
     def getObjDictLen(self):
+        """Returns integer length of ObjectLists.__objDict."""
         return len(self.__objDict)
 
     @classmethod

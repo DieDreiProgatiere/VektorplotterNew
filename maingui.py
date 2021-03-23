@@ -21,11 +21,15 @@ from objectsToFig import compileFig
 from calcInputclass import CalcInput
 
 
+# Pre-Inputted Stuff for Testing purposes...
 vec = Vector3D(1, 2, 3,append=True)
 vec2 = Vector3D(2, 3, 4,append=True)
 point = Point(3,3,3,color=(50,50,50),append=True)
 line = Line(vec,Vector3D(10,1,1),append=True)
 plane = Plane.normalForm(vec,Vector3D(-5,-1,-1,"Herbert",(0,0,0),show=False,append=True),show=True,append=True)
+plane2 = Plane.parameterForm(Vector3D(0,0,10),Vector3D(0,1,0),Vector3D(1,0,0),show=True,append=True)
+# point2 = Solvers.solveForPointPlane(line,plane2)
+# ObjectLists.appendObjDict({point2.getID(): point2})
 
 
 class MainWindow(QMainWindow):
@@ -54,7 +58,6 @@ class MainWindow(QMainWindow):
         self.makeMenuView()
         self.makeListView()
         self.makeNewObjectView()
-
 
     def makeWebEngineView(self, fig):
         self.webBox = QWidget()
@@ -117,7 +120,6 @@ class MainWindow(QMainWindow):
         self.listBox.setLayout(self.listBoxLayout)
         self.mainLayout.addWidget(self.listScroll, 1, 0)
 
-
     def makeMenuView(self):
         self.menuBox = QWidget()
         self.menuBoxLayout = QHBoxLayout()
@@ -143,7 +145,6 @@ class MainWindow(QMainWindow):
         self.menuBox.setLayout(self.menuBoxLayout)
         self.mainLayout.addWidget(self.menuBox, 0, 0)
 
-    
     def makeNewObjectView(self):
         self.newBox = QWidget()
         self.newBox.setMaximumSize(450, 50)
@@ -168,10 +169,8 @@ class MainWindow(QMainWindow):
         self.newBox.setLayout(self.newBoxLayout)
         self.mainLayout.addWidget(self.newBox, 2, 0)
 
-
     def highlightObject(self, elements, index):
         pass
-
 
     def delObject(self, element, index):
         if index < ObjectLists.getObjDictLen():
@@ -184,12 +183,9 @@ class MainWindow(QMainWindow):
             self.listBoxLayout.update()
         else:
             pass
-        
-
 
     def home(self):
         pass #Placeholder
-
 
     def newObjectButtonClicked(self):
         # this method is called, if the newObjectButton is clicked
@@ -229,7 +225,6 @@ class MainWindow(QMainWindow):
         exec("self.newObject = " + self.newObjectInputLineText)
         ObjectLists.appendObjDict({self.newObject.getID(): self.newObject})
         self.main()
-        
 
     def newCalcInput(self):
         # this method is called, if the return key is pressed in the newCalcButtonClicked method
