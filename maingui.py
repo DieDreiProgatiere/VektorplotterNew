@@ -120,11 +120,7 @@ class MainWindow(QMainWindow):
         self.listBox.setLayout(self.listBoxLayout)
         self.mainLayout.addWidget(self.listScroll, 1, 0)
 
-<<<<<<< Updated upstream
-=======
 
-
->>>>>>> Stashed changes
     def makeMenuView(self):
         self.menuBox = QWidget()
         self.menuBoxLayout = QHBoxLayout()

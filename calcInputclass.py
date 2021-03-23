@@ -118,28 +118,26 @@ class CalcInput:
     
 
     def handleSchneiden(self, input):
-        presplit = re.split(r"[(]", input)
-        secondPresplit = re.split(r"[)]", presplit)
-        elements = re.split(r"[,]", secondPresplit)
+        elements = re.split(r"[(,)]", input)
         print(elements)
-        firstElement = elements[0].strip()
-        secondElement = elements[1].strip()
+        firstElement = elements[1].strip()
+        secondElement = elements[2].strip()
 
         if "lin" in firstElement:
             if "lin" in secondElement:
-                point = Solvers.schnittpunkt(firstElement, secondElement)
+                point = Solvers.schnittpunkt(ObjectLists.getObjDict().get(firstElement), ObjectLists.getObjDict().get(secondElement))
                 print(point)
             elif "pla" in secondElement:
-                point = Solvers.solveForPointPlane(firstElement, secondElement)
+                point = Solvers.solveForPointPlane(ObjectLists.getObjDict().get(firstElement), ObjectLists.getObjDict().get(secondElement))
                 print(point)
             else:
                 print("No valid arguments for Schneiden.")
         elif "pla" in firstElement:
             if "lin" in secondElement:
-                point = Solvers.solveForPointPlane(secondElement, firstElement)
+                point = Solvers.solveForPointPlane(ObjectLists.getObjDict().get(secondElement), ObjectLists.getObjDict().get(firstElement))
                 print(point)
             elif "pla" in secondElement:
-                line = Solvers.schnittgerade(firstElement, secondElement)
+                line = Solvers.schnittgerade(ObjectLists.getObjDict().get(firstElement), ObjectLists.getObjDict().get(secondElement))
                 print(line)
             else:
                 print("No valid arguments for Schneiden.")
