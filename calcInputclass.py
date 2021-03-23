@@ -1,10 +1,7 @@
 from listclass import ObjectLists
-from vector3Dclass import Vector3D
-from pointclass import Point
-from lineclass import Line
-from planeclass import Plane
 from solvers import Solvers
 import re
+from maingui import MainWindow
 
 
 class CalcInput:
@@ -33,7 +30,8 @@ class CalcInput:
             pass #self.handleExplicitDivision(self, input)
         elif "schneiden" in input or "Schneiden" in input:
             self.handleSchneiden(self, input)
-
+        elif "d" in input or "D" in input:
+            self.handleDistance(self, input)
         else:
             print("nothing to handle!")
 
@@ -52,11 +50,11 @@ class CalcInput:
                 except Exception:
                     pass
 
-            print(addedVec) # Testing Purposes
+            print(str(input) + ": " + str(addedVec)) # Testing Purposes
+
 
     def handleExplicitAddition(self, input):
-        pass
-
+        pass #Future Implementation
 
     def handleSubtraction(self, input):
         subtraction = re.split(r"[-]", input)
@@ -72,10 +70,10 @@ class CalcInput:
                 except Exception:
                     pass
 
-            print(subtractedVec) # Testing Purposes
+            print(str(input) + ": " + str(subtractedVec)) # Testing Purposes
 
     def handleExplicitSubtraction(self, input):
-        pass
+        pass #Future Implementation
 
     def handleScalarProduct(self, input):
         scalar = re.split(r"[*]", input)
@@ -86,17 +84,17 @@ class CalcInput:
                 try:
                     nextVec = ObjectLists.getObjDict().get(scalar[index + 1].strip())
                     multNum = multVec.scalarProduct(nextVec)
-                    print(multNum) # Testing Purposes
+                    print(str(input) + ": " + str(multNum)) # Testing Purposes
                 except IndexError:
                     pass
                 except Exception:
                     nextNum = scalar[index + 1].strip()
                     multVec = multVec.scalarMultiplication(nextNum)
-                    print(multVec) # Testing Purposes
+                    print(str(input) + ": " + str(multVec)) # Testing Purposes
 
 
     def handleExplicitScalarProduct(self, input):
-        pass
+        pass #Future Implementation
 
     def handleDivision(self, input):
         try:
@@ -114,12 +112,11 @@ class CalcInput:
                     
 
     def handleExplicitDivision(self, input):
-        pass
+        pass #Future Implementation
     
 
     def handleSchneiden(self, input):
         elements = re.split(r"[(,)]", input)
-        print(elements)
         firstElement = elements[1].strip()
         secondElement = elements[2].strip()
 
@@ -143,4 +140,49 @@ class CalcInput:
                 print("No valid arguments for Schneiden.")
         else:
             print("No valid arguments for Schneiden.")
+
+
+    def handleDistance(self, input):
+        elements = re.split(r"[(,)]", input)
+        firstElement = elements[1].strip()
+        secondElement = elements[2].strip()
+
+        if "poi" in firstElement:
+            if "poi" in secondElement:
+                distance = Solvers.distancePointPoint(ObjectLists.getObjDict().get(firstElement), ObjectLists.getObjDict().get(secondElement))
+                print(distance)
+            elif "lin" in secondElement:
+                distance = Solvers.distancePointLine(ObjectLists.getObjDict().get(firstElement), ObjectLists.getObjDict().get(secondElement))
+                print(distance)
+            elif "pla" in secondElement:
+                distance = Solvers.distancePlanePoint(ObjectLists.getObjDict().get(firstElement), ObjectLists.getObjDict().get(secondElement))
+                print(distance)
+            else:
+                print("No valid arguments for Distance.")
+        elif "lin" in firstElement:
+            if "poi" in secondElement:
+                distance = Solvers.distancePointLine(ObjectLists.getObjDict().get(secondElement), ObjectLists.getObjDict().get(firstElement))
+                print(distance)
+            elif "lin" in secondElement:
+                distance = Solvers.distanceLineLine(ObjectLists.getObjDict().get(firstElement), ObjectLists.getObjDict().get(secondElement))
+                print(distance)
+            elif "pla" in secondElement:
+                distance = Solvers.distanceLinePlane(ObjectLists.getObjDict().get(firstElement), ObjectLists.getObjDict().get(secondElement))
+                print(distance)
+            else:
+                print("No valid arguments for Distance.")
+        elif "pla" in firstElement:
+            if "poi" in secondElement:
+                distance = Solvers.distancePlanePoint(ObjectLists.getObjDict().get(secondElement), ObjectLists.getObjDict().get(firstElement))
+                print(distance)
+            elif "lin" in secondElement:
+                distance = Solvers.distanceLinePlane(ObjectLists.getObjDict().get(secondElement), ObjectLists.getObjDict().get(firstElement))
+                print(distance)
+            elif "pla" in secondElement:
+                distance = Solvers.distancePlanePlane(ObjectLists.getObjDict().get(firstElement), ObjectLists.getObjDict().get(secondElement))
+                print(distance)
+            else:
+                print("No valid arguments for Distance.")
+        else:
+            print("No valid arguments for Distance.")
 
