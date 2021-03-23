@@ -7,7 +7,6 @@ import plotly
 import plotly.express as px
 import plotly.graph_objects as go
 import numpy as np
-import pandas as pd
 
 from listclass import ObjectLists
 from vector3Dclass import Vector3D
