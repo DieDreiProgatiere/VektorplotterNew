@@ -22,15 +22,46 @@ Vektorplotter ist eine Software zur Berechnung von geometrischer Probleme, sowie
 
 ### Benutzung 
 
-Die Software Vektorplotter sollte bei Eingabe von Funktionen der analytischen Geometrie:
-* Schnittpunkte berechnen können
-* Ebenen aufstellen könnnen
-* Geraden aufstellen können
-* Vektoren addieren können
-* Vektoren subtrahieren können
-* Vektoren mit einem Skalar multiplizieren können
-* Ein Kreuzprodukt bilden können
-* Schnittwinkel berechnen können 
+1. ID´s:
+
+	* poi = Punkt
+	* vec = Vektor
+	* lin = Gerade
+	* pla = Ebene
+
+2. Erstellen/Hinzufügen:
+
+	* Wenn eine ungültige Eingabe erfolgt, könnte ein unerklärter Programmabsturz pas-sieren.
+	* Objekte in < > durch entsprechendes Objekt (nicht ID) ersetzen
+	* Punkt: Point(xKoordinate, yKoordinate, zKoordinate)
+	* Vektor: Vector3D(xKoordinate, yKoordinate, zKoordinate)
+	* Gerade: Line(<Stützvektor>, <Richtungsvektor>)
+
+
+	* Ebene:
+	* Normalform: Plane.normalForm(<Stützvektor>, <Normalvektor>)
+	* Parameterform: Pla-ne.parameterForm(<Stützvektor>,<Richtungsvektor1>,<RV2>)
+	* Koordinatenform: Plane.coordinateForm(<Normalvektor>, skalarParameter)
+	* 	Zusätzlich zu den angegeben minimalen Eingaben möglich (in den Klammern) sind:
+	* color=(rot,grün,blau); Farbe; rot, grün und blau ganzzahlig zw. 0 und 255
+	* show=False; Objekt wird nur in Liste, nicht aber im Plot angezeigt
+	* append=True; Bei Objekten in < > die auch einzeln angezeigt werden sollen
+	
+1. Rechnen:
+
+
+	* Zum Rechnen müssen die Gewollten Objekte bereits existieren. Dann wird mit ihren IDs gearbeitet.
+	* Wenn die Rechnung nicht möglich ist könnte das Programm unerklärt abstürzen
+	* Addition von Vektoren: vec1 + vec2
+	* Subtraktion von Vektoren: vec1 - vec2
+	* Skalarprodukt: vec1 * vec2
+	* Skalarmultiplikation: vec1 * Zahl
+	* Skalardivision: vec1 : Zahl oder vec1 / Zahl
+	* Kreuzprodukt: vec1 x vec2
+	* Schneiden von Objekten: schneiden(obj1, obj2); obj1 und obj2 beliebig aus lin und/oder pla
+	* Abstand von Objekten: d(obj1, ob2); obj1 und obj2 beliebig aus poi, lin und/oder pla
+	* Schnittwinkel zw. Objekten: winkel(obj1, obj2); obj1 und obj2 beliebig aus lin und/oder pla
+
 
 ### Support
 Bei Problemen und Nachfragen erreichen sie den Support unter:

@@ -26,11 +26,11 @@ vec = Vector3D(1, 2, 3,append=True)
 vec2 = Vector3D(2, 3, 4,append=True)
 point = Point(3,3,3,color=(50,50,50),append=True)
 line = Line(vec,Vector3D(10,1,1),append=True)
-plane = Plane.normalForm(vec,Vector3D(-5,-1,-1,"Herbert",(0,0,0),show=False,append=True),show=True,append=True)
+plane = Plane.normalForm(vec,Vector3D(-5,-1,-1,"Herbert",(0,0,0),show=True,append=True),show=True,append=True)
 plane2 = Plane.parameterForm(Vector3D(0,0,10),Vector3D(0,1,0),Vector3D(1,0,0),show=True,append=True)
 plane3 = Plane.coordinateForm(Vector3D(20,1,1),22.0,append=True)
-# point2 = Solvers.solveForPointPlane(line,plane2)
-# ObjectLists.appendObjDict({point2.getID(): point2})
+point2 = Solvers.solveForPointPlane(line,plane3)
+ObjectLists.appendObjDict({point2.getID(): point2})
 
 
 class MainWindow(QMainWindow):
