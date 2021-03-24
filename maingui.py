@@ -1,3 +1,4 @@
+from PyQt5.QtGui import QPixmap
 from PyQt5.QtWidgets import QApplication, QGridLayout, QHBoxLayout, QLabel, QMainWindow, QPushButton, QScrollArea, QSizePolicy, QWidget, QLineEdit
 from PyQt5.QtWebEngineWidgets import QWebEngineView
 from PyQt5.QtCore import Qt, QSize
@@ -127,21 +128,15 @@ class MainWindow(QMainWindow):
         self.menuBoxLayout.setContentsMargins(0, 0, 0, 0)
         self.menuBoxLayout.setSpacing(10)
 
-        self.homeButton = QPushButton()
-        self.homeButton.setText("Home")
-        self.homeButton.setMaximumSize(75, 30)
-        self.homeButton.setMinimumSize(75, 30)
-        self.homeButton.setSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
-        self.homeButton.clicked.connect(lambda: self.home()) # home is Placeholder, lambda for future args
-        self.menuBoxLayout.addWidget(self.homeButton, 0, Qt.AlignmentFlag.AlignLeft)
-
         self.otherButton = QPushButton()
-        self.otherButton.setText("Test")
-        self.otherButton.setMaximumSize(75, 30)
-        self.otherButton.setMinimumSize(75, 30)
+        self.otherButton.setText("Syntax Cheatsheet anzeigen")
+        self.otherButton.setMaximumSize(250, 30)
+        self.otherButton.setMinimumSize(250, 30)
         self.otherButton.setSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
-        self.otherButton.clicked.connect(lambda: self.home()) # home is Placeholder, lambda for future args
-        self.menuBoxLayout.addWidget(self.otherButton, 1, Qt.AlignmentFlag.AlignLeft)
+        self.otherButton.clicked.connect(lambda: self.displaySyntaxCheatsheet())
+        self.menuBoxLayout.addWidget(self.otherButton, 0, Qt.AlignmentFlag.AlignLeft)
+
+        self.syntaxCheatsheet = ShowSyntaxCheatsheet()
 
         self.menuBox.setLayout(self.menuBoxLayout)
         self.mainLayout.addWidget(self.menuBox, 0, 0)
@@ -182,8 +177,8 @@ class MainWindow(QMainWindow):
         else:
             pass
 
-    def home(self):
-        pass #Placeholder
+    def displaySyntaxCheatsheet(self):
+        self.syntaxCheatsheet.show()
 
     def newObjectButtonClicked(self):
         # this method is called, if the newObjectButton is clicked
@@ -234,6 +229,23 @@ class MainWindow(QMainWindow):
 
         CalcInput.handleInput(self.newCalcInputLineText)
         self.main()
+
+
+class ShowSyntaxCheatsheet(QMainWindow):
+
+    def __init__(self) -> None:
+        super(ShowSyntaxCheatsheet, self).__init__()
+        self.title = "Syntax Cheatsheet"
+        self.setWindowTitle(self.title)
+        self.mainWidget = QWidget()
+        self.mainWidgetLayout = QGridLayout()
+        self.cheatsheetImage = QLabel(self.mainWidget)
+        self.cheatsheetImage.setPixmap(QPixmap("img/cheatsheet.png"))
+        self.cheatsheetImage.show()
+
+        self.mainWidgetLayout.addWidget(self.cheatsheetImage)
+        self.mainWidget.setLayout(self.mainWidgetLayout)
+        self.setCentralWidget(self.mainWidget)
 
 
 if __name__ == '__main__':
