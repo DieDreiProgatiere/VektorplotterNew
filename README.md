@@ -43,7 +43,7 @@ Vektorplotter ist eine Software zur Berechnung von geometrischer Probleme, sowie
 	* Parameterform: Pla-ne.parameterForm(<Stützvektor>,<Richtungsvektor1>,<RV2>)
 	* Koordinatenform: Plane.coordinateForm(<Normalvektor>, skalarParameter)
 	* 	Zusätzlich zu den angegeben minimalen Eingaben möglich (in den Klammern) sind:
-	* color=(rot,gelb,grün); Farbe; rot, gelb und grün ganzzahlig zw. 0 und 255
+	* color=(rot,grün,blau); Farbe; rot, grün und blau ganzzahlig zw. 0 und 255
 	* show=False; Objekt wird nur in Liste, nicht aber im Plot angezeigt
 	* append=True; Bei Objekten in < > die auch einzeln angezeigt werden sollen
 	
