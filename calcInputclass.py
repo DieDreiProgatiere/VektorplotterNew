@@ -12,33 +12,35 @@ class CalcInput:
     def handleInput(self, input):
         
         if "+" in input:
-            self.handleAddition(self, input)
+            obj = self.handleAddition(self, input)
         elif "add" in input:
             pass #self.handleExplicitAddition(self, input)
         elif "-" in input:
-            self.handleSubtraction(self, input)
+            obj = self.handleSubtraction(self, input)
         elif "subtract" in input:
             pass #self.handleExplicitSubtraction(self, input)
         elif "*" in input:
-            self.handleScalarProduct(self, input)
+            obj = self.handleScalarProduct(self, input)
         elif "scalarProduct" in input:
             pass #self.handleExplicitScalarProduct(self, input)
         elif ":" in input or "/" in input:
-            self.handleDivision(self, input)
+            obj = self.handleDivision(self, input)
         elif "divide" in input:
             pass #self.handleExplicitDivision(self, input)
         elif "x" in input:
-            self.handleVectorProduct(self, input)
+            obj = self.handleVectorProduct(self, input)
         elif "kreuz" in input:
             pass #self.handleExplicitVectorProduct(self, input)
         elif "schneiden" in input or "Schneiden" in input:
-            self.handleSchneiden(self, input)
+            obj = self.handleSchneiden(self, input)
         elif "d" in input or "D" in input:
-            self.handleDistance(self, input)
+            obj = self.handleDistance(self, input)
         elif "winkel" in input:
-            self.handleAngle(self, input)
+            obj = self.handleAngle(self, input)
         else:
             print("nothing to handle!")
+
+        return obj
 
         
     def handleAddition(self, input):
@@ -55,7 +57,7 @@ class CalcInput:
                 except Exception:
                     pass
 
-            print(str(input) + ": " + str(addedVec)) # Testing Purposes
+            return str(input) + ": " + str(addedVec)
 
 
     def handleExplicitAddition(self, input):
@@ -75,7 +77,7 @@ class CalcInput:
                 except Exception:
                     pass
 
-            print(str(input) + ": " + str(subtractedVec)) # Testing Purposes
+            return str(input) + ": " + str(subtractedVec)
 
     def handleExplicitSubtraction(self, input):
         pass #Future Implementation
@@ -89,13 +91,13 @@ class CalcInput:
                 try:
                     nextVec = ObjectLists.getObjDict().get(scalar[index + 1].strip())
                     multNum = multVec.scalarProduct(nextVec)
-                    print(str(input) + ": " + str(multNum)) # Testing Purposes
+                    return str(input) + ": " + str(multNum)
                 except IndexError:
                     pass
                 except Exception:
                     nextNum = scalar[index + 1].strip()
                     multVec = multVec.scalarMultiplication(nextNum)
-                    print(str(input) + ": " + str(multVec)) # Testing Purposes
+                    return str(input) + ": " + str(multVec)
 
 
     def handleExplicitScalarProduct(self, input):
@@ -119,7 +121,7 @@ class CalcInput:
                 except Exception:
                     pass
 
-            print(str(input) + ": " + str(divVec)) # Testing Purposes
+            return str(input) + ": " + str(divVec)
 
 
     def handleExplicitDivision(self, input):
@@ -140,7 +142,7 @@ class CalcInput:
                 except Exception:
                     pass
 
-            print(str(input) + ": " + str(multVec)) # Testing Purposes
+            return str(input) + ": " + str(multVec)
 
     
     def handleExplicitVectorProduct(self, input):
@@ -155,19 +157,19 @@ class CalcInput:
         if "lin" in firstElement:
             if "lin" in secondElement:
                 point = Solvers.schnittpunkt(ObjectLists.getObjDict().get(firstElement), ObjectLists.getObjDict().get(secondElement))
-                print(point)
+                return str(input) + ": " + str(point)
             elif "pla" in secondElement:
                 point = Solvers.solveForPointPlane(ObjectLists.getObjDict().get(firstElement), ObjectLists.getObjDict().get(secondElement))
-                print(point)
+                return str(input) + ": " + str(point)
             else:
                 print("No valid arguments for Schneiden.")
         elif "pla" in firstElement:
             if "lin" in secondElement:
                 point = Solvers.solveForPointPlane(ObjectLists.getObjDict().get(secondElement), ObjectLists.getObjDict().get(firstElement))
-                print(point)
+                return str(input) + ": " + str(point)
             elif "pla" in secondElement:
                 line = Solvers.schnittgerade(ObjectLists.getObjDict().get(firstElement), ObjectLists.getObjDict().get(secondElement))
-                print(line)
+                return str(input) + ": " + str(point)
             else:
                 print("No valid arguments for Schneiden.")
         else:
@@ -182,41 +184,42 @@ class CalcInput:
         if "poi" in firstElement:
             if "poi" in secondElement:
                 distance = Solvers.distancePointPoint(ObjectLists.getObjDict().get(firstElement), ObjectLists.getObjDict().get(secondElement))
-                print(distance)
+                return str(input) + "= " + str(distance)
             elif "lin" in secondElement:
                 distance = Solvers.distancePointLine(ObjectLists.getObjDict().get(firstElement), ObjectLists.getObjDict().get(secondElement))
-                print(distance)
+                return str(input) + "= " + str(distance)
             elif "pla" in secondElement:
                 distance = Solvers.distancePlanePoint(ObjectLists.getObjDict().get(firstElement), ObjectLists.getObjDict().get(secondElement))
-                print(distance)
+                return str(input) + "= " + str(distance)
             else:
                 print("No valid arguments for Distance.")
         elif "lin" in firstElement:
             if "poi" in secondElement:
                 distance = Solvers.distancePointLine(ObjectLists.getObjDict().get(secondElement), ObjectLists.getObjDict().get(firstElement))
-                print(distance)
+                return str(input) + "= " + str(distance)
             elif "lin" in secondElement:
                 distance = Solvers.distanceLineLine(ObjectLists.getObjDict().get(firstElement), ObjectLists.getObjDict().get(secondElement))
-                print(distance)
+                return str(input) + "= " + str(distance)
             elif "pla" in secondElement:
                 distance = Solvers.distanceLinePlane(ObjectLists.getObjDict().get(firstElement), ObjectLists.getObjDict().get(secondElement))
-                print(distance)
+                return str(input) + "= " + str(distance)
             else:
                 print("No valid arguments for Distance.")
         elif "pla" in firstElement:
             if "poi" in secondElement:
                 distance = Solvers.distancePlanePoint(ObjectLists.getObjDict().get(secondElement), ObjectLists.getObjDict().get(firstElement))
-                print(distance)
+                return str(input) + "= " + str(distance)
             elif "lin" in secondElement:
                 distance = Solvers.distanceLinePlane(ObjectLists.getObjDict().get(secondElement), ObjectLists.getObjDict().get(firstElement))
-                print(distance)
+                return str(input) + "= " + str(distance)
             elif "pla" in secondElement:
                 distance = Solvers.distancePlanePlane(ObjectLists.getObjDict().get(firstElement), ObjectLists.getObjDict().get(secondElement))
-                print(distance)
+                return str(input) + "= " + str(distance)
             else:
                 print("No valid arguments for Distance.")
         else:
             print("No valid arguments for Distance.")
+
 
     def handleAngle(self, input):
         elements = re.split(r"[(,)]", input)
@@ -225,7 +228,7 @@ class CalcInput:
 
         try:
             angle = Solvers.solveForSchnittwinkel(ObjectLists.getObjDict().get(firstElement), ObjectLists.getObjDict().get(secondElement))
-            print(angle)
+            return str(input) + "= " + str(angle)
         except Exception:
             print("No valid arguments for Angle.")
 

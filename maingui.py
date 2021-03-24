@@ -138,8 +138,11 @@ class MainWindow(QMainWindow):
 
         self.syntaxCheatsheet = ShowSyntaxCheatsheet()
 
+        self.resultLabel = QLabel()
+        self.menuBoxLayout.addWidget(self.resultLabel, 0, Qt.AlignmentFlag.AlignRight)
+
         self.menuBox.setLayout(self.menuBoxLayout)
-        self.mainLayout.addWidget(self.menuBox, 0, 0)
+        self.mainLayout.addWidget(self.menuBox, 0, 0, 1, 2)
 
     def makeNewObjectView(self):
         self.newBox = QWidget()
@@ -227,7 +230,9 @@ class MainWindow(QMainWindow):
         self.listBoxLayout.removeWidget(self.newCalcInputLine)
         self.listBoxLayout.update()
 
-        CalcInput.handleInput(self.newCalcInputLineText)
+        self.calcObj = CalcInput.handleInput(self.newCalcInputLineText)
+        self.resultLabel.clear()
+        self.resultLabel.setText(str(self.calcObj))
         self.main()
 
 
