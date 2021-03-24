@@ -105,7 +105,7 @@ def compileFig():
                     schnittpunkt = Solvers.solveForPointPlane(edge, elem)
                     if schnittpunkt is not None:
                         schnittpunkte.append(schnittpunkt)
-                        print(schnittpunkt)
+                        # print(schnittpunkt)
                 x = []
                 y = []
                 z = []
