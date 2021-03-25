@@ -6,19 +6,34 @@ v2.0 (Pre-Alpha)
 
 Vektorplotter ist eine Software zur Berechnung von geometrischer Probleme, sowie zur Visualiserung von 2D und 3D Objekten innerhalb eines kartesischen Koordinatensystems.
 
+### Vorraussetzungen 
+
+Es müssen folgende Module installiert sein:
+
+-	PyQt5 (Vers.: 5.15.4)
+-	PyQtWebEngine (Vers.: 5.15.4)
+-	plotly (Vers.: 4.14.3)
+-	numpy   (.linalg)(Vers.: 1.19.5)
+-	pandas (Vers.: 1.2.1)
+-	Python eigene:
+	* 	re (regular expressions)
+	* 	math 
+	* 	sys 
+
+
 ### Starten von Vektorplotter (Mac & Linux)
 
 1. Python (Version 3.8.7+) installieren
 1. Zip Datei entpacken
 1. Terminal öffnen
-1. "python3 Verzeichnis von Vektorplotter/main.py" eingeben
+1. "python3 Verzeichnis von Vektorplotter/maingui.py" eingeben
 
 ### Starten von Vektorplotter (Windows)
 
 1. Python (Version 3.8.7+) installieren
 1. Zip Datei entpacken
-1. Terminal öffnen
-1. "python3 Verzeichnis von Vektorplotter/main.py" eingeben
+1. cmd öffnen
+1. "python3 Verzeichnis von Vektorplotter/maingui.py" eingeben
 
 ### Benutzung 
 
