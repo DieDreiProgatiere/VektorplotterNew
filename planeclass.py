@@ -207,7 +207,7 @@ class Plane:
         elif self.__typeOfPlane == "parameter":
             return "x = "+str(self.__positionVector)+" + r * "+str(self.__directionVectorOne)+" + s * "+str(self.__directionVectorTwo)
         elif self.__typeOfPlane == "coordinate":
-            return str(self.__normalVector.getX())+"x + "+str(self.__normalVector.getY())+"y + "+str(self.__normalVector.getZ())+"z = "+str(self.__scalarParameter)
+            return str(self.__normalVector.getX())+"x + "+str(self.__normalVector.getY())+"y + "+str(self.__normalVector.getZ())+"z = "+str(round(self.__scalarParameter, 2))
         else:
             return "No valid plane!"
 

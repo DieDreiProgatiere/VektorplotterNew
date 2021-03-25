@@ -39,7 +39,7 @@ class Point:
     def __str__(self):
         """Str method for testing purposes.
         Uses given Point instance, returns string."""
-        return "("+str(self.__x)+"; "+str(self.__y)+"; "+str(self.__z)+")"
+        return "("+str(round(self.__x, 2))+"; "+str(round(self.__y, 2))+"; "+str(round(self.__z, 2))+")"
 
     def getX(self):
         """The get method for the x-komponent.

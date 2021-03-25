@@ -108,6 +108,8 @@ class CalcInput:
             division = re.split(r"[:]", input)
         except len(division) == 1:
             division = re.split(r"[/]", input)
+        except Exception:
+            pass
 
         if not(len(division) == 1):
             firstVec = ObjectLists.getObjDict().get(division[0].strip())

@@ -165,7 +165,7 @@ class Vector3D:
     def __str__(self):
         """Str method for testing purposes.
         Uses given Vector3D instance, returns string."""
-        return "("+str(self.__x)+"; "+str(self.__y)+"; "+str(self.__z)+")"
+        return "("+str(round(self.__x, 2))+"; "+str(round(self.__y, 2))+"; "+str(round(self.__z, 2))+")"
 
     x = property(getX, setX)
     y = property(getY, setY)

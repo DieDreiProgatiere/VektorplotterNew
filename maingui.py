@@ -231,9 +231,9 @@ class MainWindow(QMainWindow):
         self.listBoxLayout.update()
 
         self.calcObj = CalcInput.handleInput(self.newCalcInputLineText)
-        self.resultLabel.clear()
+        self.resultLabel.update()
         self.resultLabel.setText(str(self.calcObj))
-        self.main()
+        QApplication.processEvents()
 
 
 class ShowSyntaxCheatsheet(QMainWindow):
@@ -243,6 +243,7 @@ class ShowSyntaxCheatsheet(QMainWindow):
         self.title = "Syntax Cheatsheet"
         self.setWindowTitle(self.title)
         self.mainWidget = QWidget()
+        self.mainWidget.setMinimumSize(1, 1)
         self.mainWidgetLayout = QGridLayout()
         self.cheatsheetImage = QLabel(self.mainWidget)
         self.cheatsheetImage.setPixmap(QPixmap("img/cheatsheet.png"))
